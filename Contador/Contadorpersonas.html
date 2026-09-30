@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Personas - VS Arena</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Mantenemos el degradado para oscurecer los bordes y dejar el centro libre */
+            background-image: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), url('imagen.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Clase para los elementos pequeños (botones, recuadros interiores) para que sean legibles */
+        .glass-panel {
+            background: rgba(20, 20, 25, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .glass-button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        .glass-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .glass-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Animación para los números */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-pop {
+            animation: pop 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Se ha eliminado el recuadro principal, dejando solo el contenedor de estructura -->
+    <main class="w-full max-w-lg text-white text-center relative p-4 sm:p-8">
+        
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full glass-panel mb-4 shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                <i class="fa-solid fa-users-viewfinder text-3xl"></i>
+            </div>
+            <h1 class="text-2xl font-semibold tracking-wide uppercase text-white/90 drop-shadow-md">Contador</h1>
+        </header>
+
+        <!-- Total Counter -->
+        <section class="mb-10">
+            <h2 id="totalCounter" class="text-5xl sm:text-6xl font-bold drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)] transition-all duration-300">
+                0 Personas
+            </h2>
+            <p class="text-sm text-white mt-2 font-semibold uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Personas Totales</p>
+        </section>
+
+        <!-- Category Counters -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+            
+            <!-- Men Counter -->
+            <div class="glass-panel rounded-2xl p-6 flex flex-col items-center border-t-2 border-t-cyan-500/50">
+                <i class="fa-solid fa-person text-4xl mb-3 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"></i>
+                <h3 class="text-lg font-medium mb-1 text-white/90">Hombres</h3>
+                <div id="menCount" class="text-4xl font-bold mb-4 w-full text-center">0</div>
+                
+                <div class="flex gap-4">
+                    <button id="btnSubMen" class="glass-button w-12 h-12 rounded-full flex items-center justify-center text-xl disabled" onclick="updateCount('men', -1)" disabled>
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <button id="btnAddMen" class="glass-button w-12 h-12 rounded-full flex items-center justify-center text-xl hover:text-cyan-300" onclick="updateCount('men', 1)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Women Counter -->
+            <div class="glass-panel rounded-2xl p-6 flex flex-col items-center border-t-2 border-t-orange-500/50">
+                <i class="fa-solid fa-person-dress text-4xl mb-3 text-orange-500 drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]"></i>
+                <h3 class="text-lg font-medium mb-1 text-white/90">Mujeres</h3>
+                <div id="womenCount" class="text-4xl font-bold mb-4 w-full text-center">0</div>
+                
+                <div class="flex gap-4">
+                    <button id="btnSubWomen" class="glass-button w-12 h-12 rounded-full flex items-center justify-center text-xl disabled" onclick="updateCount('women', -1)" disabled>
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <button id="btnAddWomen" class="glass-button w-12 h-12 rounded-full flex items-center justify-center text-xl hover:text-orange-400" onclick="updateCount('women', 1)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Reset Action -->
+        <button onclick="resetCounter()" class="glass-button px-8 py-3 rounded-full font-semibold tracking-wide text-sm flex items-center justify-center mx-auto gap-2 text-white/90 hover:text-white transition-colors border border-white/20 shadow-lg">
+            <i class="fa-solid fa-rotate-right"></i>
+            REINICIAR CONTADOR
+        </button>
+
+    </main>
+
+    <script>
+        let counts = { men: 0, women: 0 };
+
+        const els = {
+            total: document.getElementById('totalCounter'),
+            menCount: document.getElementById('menCount'),
+            womenCount: document.getElementById('womenCount'),
+            btnSubMen: document.getElementById('btnSubMen'),
+            btnSubWomen: document.getElementById('btnSubWomen')
+        };
+
+        function updateCount(category, change) {
+            if (counts[category] + change < 0) return;
+            counts[category] += change;
+            triggerAnimation(els[`${category}Count`]);
+            els[`${category}Count`].innerText = counts[category];
+            refreshUI();
+        }
+
+        function resetCounter() {
+            if (counts.men === 0 && counts.women === 0) return;
+            counts.men = 0;
+            counts.women = 0;
+            els.menCount.innerText = 0;
+            els.womenCount.innerText = 0;
+            triggerAnimation(els.total);
+            triggerAnimation(els.menCount);
+            triggerAnimation(els.womenCount);
+            refreshUI();
+        }
+
+        function refreshUI() {
+            const total = counts.men + counts.women;
+            let totalText = total === 1 ? "1 Persona" : `${total} Personas`;
+
+            if (els.total.innerText !== totalText) {
+                triggerAnimation(els.total);
+                els.total.innerText = totalText;
+            }
+
+            els.btnSubMen.disabled = counts.men === 0;
+            els.btnSubWomen.disabled = counts.women === 0;
+        }
+
+        function triggerAnimation(element) {
+            element.classList.remove('animate-pop');
+            void element.offsetWidth;
+            element.classList.add('animate-pop');
+        }
+
+        refreshUI();
+    </script>
+</body>
+</html>
