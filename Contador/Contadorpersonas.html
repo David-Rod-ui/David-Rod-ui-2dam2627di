@@ -14,7 +14,6 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            /* Mantenemos el degradado para oscurecer los bordes y dejar el centro libre */
             background-image: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), url('imagen.jpeg');
             background-size: cover;
             background-position: center;
@@ -22,7 +21,6 @@
             background-repeat: no-repeat;
         }
 
-        /* Clase para los elementos pequeños (botones, recuadros interiores) para que sean legibles */
         .glass-panel {
             background: rgba(20, 20, 25, 0.45);
             backdrop-filter: blur(12px);
@@ -53,7 +51,6 @@
             cursor: not-allowed;
         }
 
-        /* Animación para los números */
         @keyframes pop {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
@@ -67,7 +64,6 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-    <!-- Se ha eliminado el recuadro principal, dejando solo el contenedor de estructura -->
     <main class="w-full max-w-lg text-white text-center relative p-4 sm:p-8">
         
         <!-- Header -->
@@ -79,11 +75,16 @@
         </header>
 
         <!-- Total Counter -->
-        <section class="mb-10">
+        <section class="mb-10 relative">
             <h2 id="totalCounter" class="text-5xl sm:text-6xl font-bold drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)] transition-all duration-300">
                 0 Personas
             </h2>
             <p class="text-sm text-white mt-2 font-semibold uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Personas Totales</p>
+            
+            <!-- Mensaje Aforo -->
+            <div id="aforoMensaje" class="hidden mt-4 text-red-500 font-bold text-2xl uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                ¡Aforo Completo!
+            </div>
         </section>
 
         <!-- Category Counters -->
@@ -92,7 +93,7 @@
             <!-- Men Counter -->
             <div class="glass-panel rounded-2xl p-6 flex flex-col items-center border-t-2 border-t-cyan-500/50">
                 <i class="fa-solid fa-person text-4xl mb-3 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"></i>
-                <h3 class="text-lg font-medium mb-1 text-white/90">Hombres</h3>
+                <h3 id="menLabel" class="text-lg font-medium mb-1 text-white/90">Hombres</h3>
                 <div id="menCount" class="text-4xl font-bold mb-4 w-full text-center">0</div>
                 
                 <div class="flex gap-4">
@@ -108,7 +109,7 @@
             <!-- Women Counter -->
             <div class="glass-panel rounded-2xl p-6 flex flex-col items-center border-t-2 border-t-orange-500/50">
                 <i class="fa-solid fa-person-dress text-4xl mb-3 text-orange-500 drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]"></i>
-                <h3 class="text-lg font-medium mb-1 text-white/90">Mujeres</h3>
+                <h3 id="womenLabel" class="text-lg font-medium mb-1 text-white/90">Mujeres</h3>
                 <div id="womenCount" class="text-4xl font-bold mb-4 w-full text-center">0</div>
                 
                 <div class="flex gap-4">
@@ -132,21 +133,23 @@
     </main>
 
     <script>
+        const MAX_CAPACITY = 100;
         let counts = { men: 0, women: 0 };
 
-        const els = {
-            total: document.getElementById('totalCounter'),
-            menCount: document.getElementById('menCount'),
-            womenCount: document.getElementById('womenCount'),
-            btnSubMen: document.getElementById('btnSubMen'),
-            btnSubWomen: document.getElementById('btnSubWomen')
-        };
-
         function updateCount(category, change) {
+            const currentTotal = counts.men + counts.women;
+            
+            // Límite por debajo de 0 y tope de aforo
             if (counts[category] + change < 0) return;
+            if (change > 0 && currentTotal >= MAX_CAPACITY) return;
+
             counts[category] += change;
-            triggerAnimation(els[`${category}Count`]);
-            els[`${category}Count`].innerText = counts[category];
+            
+            const countElement = document.getElementById(`${category}Count`);
+            if (countElement) {
+                triggerAnimation(countElement);
+                countElement.innerText = counts[category];
+            }
             refreshUI();
         }
 
@@ -154,34 +157,74 @@
             if (counts.men === 0 && counts.women === 0) return;
             counts.men = 0;
             counts.women = 0;
-            els.menCount.innerText = 0;
-            els.womenCount.innerText = 0;
-            triggerAnimation(els.total);
-            triggerAnimation(els.menCount);
-            triggerAnimation(els.womenCount);
+            
+            const menEl = document.getElementById('menCount');
+            const womenEl = document.getElementById('womenCount');
+            const totalEl = document.getElementById('totalCounter');
+            
+            if (menEl) { menEl.innerText = 0; triggerAnimation(menEl); }
+            if (womenEl) { womenEl.innerText = 0; triggerAnimation(womenEl); }
+            if (totalEl) triggerAnimation(totalEl);
+            
             refreshUI();
         }
 
         function refreshUI() {
             const total = counts.men + counts.women;
-            let totalText = total === 1 ? "1 Persona" : `${total} Personas`;
+            
+            // Elementos del DOM consultados en tiempo real para evitar fallos si no existen
+            const els = {
+                total: document.getElementById('totalCounter'),
+                menLabel: document.getElementById('menLabel'),
+                womenLabel: document.getElementById('womenLabel'),
+                btnSubMen: document.getElementById('btnSubMen'),
+                btnSubWomen: document.getElementById('btnSubWomen'),
+                btnAddMen: document.getElementById('btnAddMen'),
+                btnAddWomen: document.getElementById('btnAddWomen'),
+                aforoMensaje: document.getElementById('aforoMensaje')
+            };
 
-            if (els.total.innerText !== totalText) {
+            // Texto dinámico del total
+            let totalText = total === 1 ? "1 Persona" : `${total} Personas`;
+            if (els.total && els.total.innerText !== totalText) {
                 triggerAnimation(els.total);
                 els.total.innerText = totalText;
             }
 
-            els.btnSubMen.disabled = counts.men === 0;
-            els.btnSubWomen.disabled = counts.women === 0;
+            // Etiquetas dinámicas (Singular/Plural)
+            if (els.menLabel) els.menLabel.innerText = counts.men === 1 ? "Hombre" : "Hombres";
+            if (els.womenLabel) els.womenLabel.innerText = counts.women === 1 ? "Mujer" : "Mujeres";
+
+            // Lógica de aforo máximo
+            if (total >= MAX_CAPACITY) {
+                if (els.aforoMensaje) {
+                    els.aforoMensaje.classList.remove('hidden');
+                    triggerAnimation(els.aforoMensaje);
+                }
+                if (els.total) els.total.classList.add('text-red-500');
+                if (els.btnAddMen) els.btnAddMen.disabled = true;
+                if (els.btnAddWomen) els.btnAddWomen.disabled = true;
+            } else {
+                if (els.aforoMensaje) els.aforoMensaje.classList.add('hidden');
+                if (els.total) els.total.classList.remove('text-red-500');
+                if (els.btnAddMen) els.btnAddMen.disabled = false;
+                if (els.btnAddWomen) els.btnAddWomen.disabled = false;
+            }
+
+            // Desactivar botones de resta al llegar a 0
+            if (els.btnSubMen) els.btnSubMen.disabled = counts.men === 0;
+            if (els.btnSubWomen) els.btnSubWomen.disabled = counts.women === 0;
         }
 
         function triggerAnimation(element) {
+            if (!element) return;
             element.classList.remove('animate-pop');
-            void element.offsetWidth;
+            void element.offsetWidth; // Fuerza el reflow
             element.classList.add('animate-pop');
         }
 
-        refreshUI();
+        // Iniciar la interfaz con los valores por defecto
+        window.onload = refreshUI;
     </script>
 </body>
 </html>
