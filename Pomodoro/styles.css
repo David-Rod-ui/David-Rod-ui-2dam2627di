@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap');
+
+/* --- Pixel Art Custom Cursors --- */
+:root {
+    /* 8-bit Arrow Cursor (Indigo/Cyan & White with Dark Pixel Outline) */
+    --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath fill='%23181425' d='M2 2h4v2h2v2h2v2h2v2h2v2h2v4h-4v2h2v4h-4v-4h-2v-2H8v2H6v2H2V2z'/%3E%3Cpath fill='%23ffffff' d='M4 4h2v2h2v2h2v2h2v2h2v2h-4v2H8v2H4V4z'/%3E%3Cpath fill='%23639bff' d='M4 6h2v10H4V6zm2 2h2v6H6V8zm4 6h2v4h-2v-4z'/%3E%3C/svg%3E") 2 2, auto;
+
+    /* 8-bit Hand / Interactive Pointer Cursor (Gold/Cyan Arcade Style) */
+    --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath fill='%23181425' d='M8 2h4v6h6v2h2v10h-2v2H6v-2H4v-6H2v-4h4v2h2V2z'/%3E%3Cpath fill='%23feae34' d='M9 4h2v8h7v8H6v-6H4v-2h2v2h3V4z'/%3E%3Cpath fill='%23ffffff' d='M9 4h1v8H9V4zm3 6h5v1h-5v-1z'/%3E%3C/svg%3E") 9 2, pointer;
+
+    /* 8-bit Text I-Beam Cursor */
+    --cursor-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath fill='%23181425' d='M6 2h12v4h-4v12h4v4H6v-4h4V6H6V2z'/%3E%3Cpath fill='%23639bff' d='M7 3h10v2h-4v14h4v2H7v-2h4V5H7V3z'/%3E%3C/svg%3E") 12 12, text;
+}
+
+* {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    border-radius: 0px !important;
+    cursor: var(--cursor-default);
+}
+
+button,
+a,
+select,
+label,
+label *,
+input[type="checkbox"],
+.cursor-pointer,
+#game-click-area,
+#game-click-area * {
+    cursor: var(--cursor-pointer) !important;
+}
+
+input[type="text"] {
+    cursor: var(--cursor-text) !important;
+}
+
+body {
+    font-family: 'Pixelify Sans', monospace;
+    transition: background-color 0.2s steps(4), color 0.2s steps(4);
+    letter-spacing: 0.03em;
+}
+
+h1, h2, #time-display, #session-text, .font-pixel {
+    font-family: 'Press Start 2P', monospace;
+}
+
+.bg-image-active {
+    background-image: url('Fondo.gif');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    image-rendering: pixelated;
+}
+
+/* Retro Pixel Art Panel (Replaces Glassmorphism) */
+.glass {
+    background: #dce3f0;
+    border: 4px solid #181425;
+    box-shadow: 
+        inset 3px 3px 0px #ffffff,
+        inset -3px -3px 0px #9badb7,
+        6px 6px 0px #181425;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.dark .glass {
+    background: rgba(24, 20, 37, 0.92);
+    border: 4px solid #8b9bb4;
+    box-shadow: 
+        inset 3px 3px 0px #3a4466,
+        inset -3px -3px 0px #120f1d,
+        6px 6px 0px #0d0a14;
+}
+
+/* CRT Scanline effect for screens/timer */
+.pixel-screen {
+    position: relative;
+    background: #cbd5e1;
+    border: 4px solid #181425;
+    box-shadow:
+        inset 4px 4px 0px #94a3b8,
+        inset -4px -4px 0px #f8fafc,
+        8px 8px 0px #181425;
+}
+
+.dark .pixel-screen {
+    background: rgba(18, 15, 29, 0.94);
+    border: 4px solid #639bff;
+    box-shadow:
+        inset 4px 4px 0px #0d0a14,
+        inset -4px -4px 0px #262b44,
+        0 0 0 4px #181425,
+        10px 10px 0px #0d0a14;
+}
+
+.pixel-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.22) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Pixel Art 3D Buttons */
+.pixel-btn {
+    border: 3px solid #181425;
+    box-shadow: 
+        inset 3px 3px 0px rgba(255, 255, 255, 0.35),
+        inset -3px -3px 0px rgba(0, 0, 0, 0.35),
+        4px 4px 0px #0d0a14;
+    transition: transform 0.05s steps(2), box-shadow 0.05s steps(2), background-color 0.1s steps(2);
+}
+
+.dark .pixel-btn {
+    border: 3px solid #e2e8f0;
+}
+
+.pixel-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 
+        inset 3px 3px 0px rgba(255, 255, 255, 0.45),
+        inset -3px -3px 0px rgba(0, 0, 0, 0.35),
+        6px 6px 0px #0d0a14;
+}
+
+.pixel-btn:active {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 
+        inset 3px 3px 0px rgba(0, 0, 0, 0.4),
+        1px 1px 0px #0d0a14 !important;
+}
+
+/* Segmented Control Pixel Buttons */
+.seg-btn-active {
+    background: #5b6ee1 !important;
+    color: #ffffff !important;
+    border: 3px solid #181425;
+    box-shadow: 
+        inset 2px 2px 0px #8b9bb4,
+        inset -2px -2px 0px #262b44,
+        2px 2px 0px #0d0a14;
+}
+
+.dark .seg-btn-active {
+    border: 3px solid #ffffff;
+}
+
+/* Pixel Text Shadows */
+.pixel-title-shadow {
+    text-shadow: 4px 4px 0px #181425, -2px -2px 0px #3a4466;
+}
+
+.pixel-text-shadow {
+    text-shadow: 2px 2px 0px #0d0a14;
+}
+
+/* Retro Window Header Bar */
+.pixel-window-bar {
+    background: linear-gradient(90deg, #3b5dc9 0%, #5b6ee1 100%);
+    border-bottom: 4px solid #181425;
+}
+.dark .pixel-window-bar {
+    background: linear-gradient(90deg, #262b44 0%, #3b5dc9 100%);
+    border-bottom: 4px solid #8b9bb4;
+}
+
+/* Stepped animations for tasks */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(8px); }
+    50% { opacity: 0.5; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut {
+    0% { opacity: 1; transform: translateX(0); }
+    50% { opacity: 0.5; transform: translateX(8px); }
+    100% { opacity: 0; transform: translateX(16px); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.2s steps(3) forwards;
+}
+.animate-fade-out {
+    animation: fadeOut 0.2s steps(3) forwards;
+}
+
+/* Stepped Bounce */
+@keyframes pixelBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+.animate-bounce {
+    animation: pixelBounce 0.8s steps(2) infinite;
+}
+
+/* Pixel Checkbox */
+input[type="checkbox"]:not(.sr-only) {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #181425;
+    border: 3px solid #8b9bb4;
+    position: relative;
+    display: inline-grid;
+    place-content: center;
+}
+input[type="checkbox"]:not(.sr-only):checked {
+    background: #38b764;
+    border-color: #ffffff;
+}
+input[type="checkbox"]:not(.sr-only):checked::before {
+    content: "■";
+    color: #ffffff;
+    font-size: 10px;
+    line-height: 1;
+}
+
+/* Pixel Toggle Switch */
+.pixel-toggle-track {
+    width: 52px;
+    height: 28px;
+    background: #3a4466;
+    border: 3px solid #181425;
+    box-shadow: inset 2px 2px 0px #0d0a14;
+    position: relative;
+    transition: background-color 0.1s steps(2);
+}
+.dark .pixel-toggle-track {
+    border-color: #8b9bb4;
+}
+.peer:checked ~ .pixel-toggle-track {
+    background: #38b764;
+}
+.pixel-toggle-track::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: #ffffff;
+    border: 2px solid #181425;
+    transition: transform 0.1s steps(2);
+}
+.peer:checked ~ .pixel-toggle-track::after {
+    transform: translateX(24px);
+}
+
+/* Hide native spinner arrows */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Pixel Scrollbar */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #181425; border-left: 2px solid #5a6988; }
+::-webkit-scrollbar-thumb { background: #5b6ee1; border: 2px solid #ffffff; }
+.dark ::-webkit-scrollbar-thumb { background: #5a6988; border: 2px solid #8b9bb4; }

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Pro - Pixel Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5b6ee1',
+                        primaryHover: '#4153c4',
+                        breakMode: '#38b764',
+                        pixelDark: '#181425',
+                        pixelPanel: '#262b44',
+                        pixelBorder: '#5a6988',
+                        pixelLight: '#8b9bb4',
+                        pixelGold: '#feae34',
+                        pixelRed: '#e43b44'
+                    },
+                    fontFamily: {
+                        pixel: ['"Press Start 2P"', 'monospace'],
+                        retro: ['"Pixelify Sans"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#cbd5e1] text-[#181425] dark:bg-[#181425] dark:text-[#f0f4f8] min-h-screen flex flex-col relative bg-image-active">
+
+    <!-- Background Music Audio Element -->
+    <audio id="bg-music" src="musica.mp3" loop preload="auto" autoplay></audio>
+
+    <!-- SVG Pixelation Filter for Crisp 8-Bit Timer Ring -->
+    <svg width="0" height="0" class="absolute pointer-events-none">
+        <defs>
+            <filter id="pixelate-ring" x="-10%" y="-10%" width="120%" height="120%">
+                <feFlood x="2" y="2" height="2" width="2"/>
+                <feComposite width="6" height="6"/>
+                <feTile result="a"/>
+                <feComposite in="SourceGraphic" in2="a" operator="in"/>
+                <feMorphology operator="dilate" radius="3"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Floating Session Indicator & Active Tasks (Top Left) -->
+    <div class="fixed top-6 left-6 z-50 flex flex-col items-start gap-3">
+        <div id="session-circle" class="w-20 h-20 glass flex items-center justify-center text-gray-900 dark:text-white font-bold text-lg shrink-0">
+            <div id="session-content" class="flex flex-col items-center gap-1">
+                <span class="text-[11px] uppercase tracking-wider text-primary dark:text-[#639bff] font-bold leading-none" data-i18n="sessionText">Sesión</span>
+                <span id="session-text" class="text-base leading-tight mt-1">1/4</span>
+            </div>
+            <i id="session-check" class="fas fa-check text-3xl text-breakMode hidden"></i>
+        </div>
+        
+        <!-- Active Tasks List -->
+        <div id="active-tasks-list" class="flex flex-col gap-3 w-52 sm:w-60 mt-1">
+            <!-- Active tasks injected here -->
+        </div>
+    </div>
+
+    <!-- Floating Buttons (Right Side) -->
+    <div class="fixed top-6 right-6 flex flex-col gap-4 z-50">
+        <button id="btn-settings" class="w-12 h-12 glass pixel-btn flex items-center justify-center text-gray-800 dark:text-gray-100 hover:bg-primary hover:text-white">
+            <i class="fas fa-cog text-xl"></i>
+        </button>
+        <button id="btn-tasks" class="w-12 h-12 glass pixel-btn flex items-center justify-center text-gray-800 dark:text-gray-100 hover:bg-primary hover:text-white">
+            <i class="fas fa-book text-xl"></i>
+        </button>
+    </div>
+
+    <!-- Main Timer Screen -->
+    <main class="flex-1 flex flex-col items-center justify-center min-h-screen p-4 pt-20">
+        
+        <div class="w-full max-w-xl flex flex-col items-center relative text-center">
+            
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-3 tracking-wider text-white pixel-title-shadow uppercase" data-i18n="appTitle">Pomodoro</h1>
+            <p id="mode-text" class="text-xl font-bold text-[#639bff] dark:text-[#639bff] mb-6 uppercase tracking-[0.2em] pixel-text-shadow bg-[#181425]/80 px-4 py-1 border-2 border-[#5a6988]" data-i18n="focusMode">Concentración</p>
+
+            <!-- Segmented Control for Break Mode -->
+            <div class="flex p-2 mb-8 z-10 w-full max-w-sm glass gap-2">
+                <button class="seg-btn flex-1 px-3 py-2 text-base font-bold uppercase tracking-wider transition-none seg-btn-active" data-mode="normal" data-i18n="modeNormal">Normal</button>
+                <button class="seg-btn flex-1 px-3 py-2 text-base font-bold uppercase tracking-wider transition-none text-gray-600 dark:text-[#8b9bb4] hover:text-gray-900 dark:hover:text-white" data-mode="sport" data-i18n="modeSport">Deporte</button>
+                <button class="seg-btn flex-1 px-3 py-2 text-base font-bold uppercase tracking-wider transition-none text-gray-600 dark:text-[#8b9bb4] hover:text-gray-900 dark:hover:text-white" data-mode="game" data-i18n="modeGame">Juego</button>
+            </div>
+
+            <!-- Pixel Art Monitor Timer Container with SVG -->
+            <div class="pixel-screen w-72 h-72 sm:w-80 sm:h-80 relative flex items-center justify-center mb-10">
+                <!-- Decorative Pixel Corner Rivets -->
+                <div class="w-2.5 h-2.5 bg-[#8b9bb4] absolute top-2.5 left-2.5 z-20"></div>
+                <div class="w-2.5 h-2.5 bg-[#8b9bb4] absolute top-2.5 right-2.5 z-20"></div>
+                <div class="w-2.5 h-2.5 bg-[#8b9bb4] absolute bottom-2.5 left-2.5 z-20"></div>
+                <div class="w-2.5 h-2.5 bg-[#8b9bb4] absolute bottom-2.5 right-2.5 z-20"></div>
+
+                <svg viewBox="0 0 288 288" class="absolute inset-0 w-full h-full -rotate-90 z-10" style="filter: url(#pixelate-ring);">
+                    <!-- Background track -->
+                    <circle cx="144" cy="144" r="120" stroke="currentColor" stroke-width="14" fill="none" class="opacity-20 text-gray-700 dark:text-[#5a6988]" stroke-dasharray="12 6"/>
+                    <!-- Progress circle (Pixelated via filter) -->
+                    <circle id="progress-circle" cx="144" cy="144" r="120" stroke="currentColor" stroke-width="14" fill="none" stroke-linecap="butt" stroke-dasharray="753.98" stroke-dashoffset="0" class="transition-all duration-500 steps-10 text-primary"/>
+                </svg>
+                
+                <div class="absolute flex flex-col items-center select-none z-20">
+                    <span class="text-[10px] uppercase tracking-[0.25em] text-[#8b9bb4] mb-2 font-pixel">TIME LEFT</span>
+                    <span id="time-display" class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white pixel-text-shadow">25:00</span>
+                </div>
+            </div>
+
+            <!-- Inline Game Container (Hidden by default) -->
+            <div id="dino-game-container" class="hidden mb-8 w-full max-w-lg flex-col items-center gap-2 glass p-4">
+                <div class="flex justify-between items-center w-full px-2 mb-2 border-b-2 border-[#5a6988] pb-2">
+                    <div class="flex items-center gap-2 text-gray-800 dark:text-white font-bold uppercase tracking-wider">
+                        <i class="fas fa-gamepad text-primary"></i> <span data-i18n="dinoGameTitle" class="font-pixel text-xs">Square Jump</span>
+                    </div>
+                    <button id="btn-restart-game" class="text-xs px-3 py-1.5 bg-primary text-white pixel-btn font-bold uppercase">
+                        <i class="fas fa-rotate-right mr-1"></i> <span data-i18n="dinoRestart">Reiniciar</span>
+                    </button>
+                </div>
+                <div class="relative w-full border-4 border-[#181425] dark:border-[#8b9bb4] overflow-hidden bg-[#dce3f0] dark:bg-[#120f1d] flex justify-center cursor-pointer" id="game-click-area">
+                    <canvas id="dino-canvas" width="560" height="160" class="w-full block select-none"></canvas>
+                </div>
+                <p class="text-sm text-gray-700 dark:text-[#8b9bb4] font-bold uppercase tracking-wider mt-1" data-i18n="dinoControls">Espacio / Clic para saltar</p>
+            </div>
+
+            <!-- Sport Mode Exercise Display (Hidden by default) -->
+            <div id="sport-exercise-container" class="hidden mb-8 w-full max-w-sm text-center p-5 glass">
+                <p class="text-xs font-pixel text-primary dark:text-[#639bff] mb-3 uppercase tracking-wider" data-i18n="sportTime">¡Tiempo de Deporte!</p>
+                <p id="sport-exercise-text" class="text-2xl font-bold text-gray-900 dark:text-white flex items-center justify-center gap-3 uppercase">
+                    <i class="fas fa-dumbbell text-breakMode"></i> <span>Sentadillas</span>
+                </p>
+            </div>
+
+            <!-- Controls (Play, Pause, Skip, Reset) -->
+            <div class="flex items-center gap-4 sm:gap-6 mb-12">
+                <button id="btn-start" title="Iniciar" class="w-14 h-14 sm:w-16 sm:h-16 bg-primary hover:bg-primaryHover text-white flex items-center justify-center pixel-btn">
+                    <i class="fas fa-play text-xl sm:text-2xl ml-1"></i>
+                </button>
+                <button id="btn-pause" title="Pausar" class="w-14 h-14 sm:w-16 sm:h-16 bg-pixelGold hover:bg-amber-600 text-[#181425] flex items-center justify-center pixel-btn opacity-50 pointer-events-none">
+                    <i class="fas fa-pause text-xl sm:text-2xl"></i>
+                </button>
+                <button id="btn-skip" title="Saltar fase" class="w-14 h-14 sm:w-16 sm:h-16 bg-[#3b5dc9] hover:bg-indigo-600 text-white flex items-center justify-center pixel-btn">
+                    <i class="fas fa-forward-step text-xl sm:text-2xl"></i>
+                </button>
+                <button id="btn-reset" title="Reiniciar" class="w-14 h-14 sm:w-16 sm:h-16 bg-[#5a6988] hover:bg-gray-600 text-white flex items-center justify-center pixel-btn">
+                    <i class="fas fa-rotate-right text-xl sm:text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Custom Integrated Steppers (Focus, Break, Sessions) -->
+            <div class="w-full grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl">
+                <!-- Focus Stepper -->
+                <div class="glass p-3 sm:p-4 flex flex-col items-center">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-widest mb-3 text-gray-800 dark:text-[#8b9bb4]" data-i18n="focusInput">Concentración</span>
+                    <div class="flex items-center gap-1 sm:gap-2 bg-[#cbd5e1] dark:bg-[#120f1d] p-1.5 border-2 border-[#181425] dark:border-[#5a6988]">
+                        <button class="step-btn w-8 h-8 sm:w-9 sm:h-9 bg-white dark:bg-[#262b44] hover:bg-primary hover:text-white dark:hover:bg-primary text-gray-800 dark:text-white flex items-center justify-center pixel-btn" data-target="input-focus" data-delta="-1">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <input type="number" id="input-focus" value="25" min="1" max="120" class="w-10 sm:w-12 bg-transparent text-center font-pixel text-sm sm:text-base text-gray-900 dark:text-white focus:outline-none pointer-events-none" readonly>
+                        <button class="step-btn w-8 h-8 sm:w-9 sm:h-9 bg-white dark:bg-[#262b44] hover:bg-primary hover:text-white dark:hover:bg-primary text-gray-800 dark:text-white flex items-center justify-center pixel-btn" data-target="input-focus" data-delta="1">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Break Stepper -->
+                <div class="glass p-3 sm:p-4 flex flex-col items-center">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-widest mb-3 text-gray-800 dark:text-[#8b9bb4]" data-i18n="breakInput">Descanso</span>
+                    <div class="flex items-center gap-1 sm:gap-2 bg-[#cbd5e1] dark:bg-[#120f1d] p-1.5 border-2 border-[#181425] dark:border-[#5a6988]">
+                        <button class="step-btn w-8 h-8 sm:w-9 sm:h-9 bg-white dark:bg-[#262b44] hover:bg-breakMode hover:text-white dark:hover:bg-breakMode text-gray-800 dark:text-white flex items-center justify-center pixel-btn" data-target="input-break" data-delta="-1">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <input type="number" id="input-break" value="5" min="1" max="60" class="w-10 sm:w-12 bg-transparent text-center font-pixel text-sm sm:text-base text-gray-900 dark:text-white focus:outline-none pointer-events-none" readonly>
+                        <button class="step-btn w-8 h-8 sm:w-9 sm:h-9 bg-white dark:bg-[#262b44] hover:bg-breakMode hover:text-white dark:hover:bg-breakMode text-gray-800 dark:text-white flex items-center justify-center pixel-btn" data-target="input-break" data-delta="1">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sessions Stepper -->
+                <div class="glass p-3 sm:p-4 flex flex-col items-center">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-widest mb-3 text-gray-800 dark:text-[#8b9bb4]" data-i18n="sessionsInput">Sesiones</span>
+                    <div class="flex items-center gap-1 sm:gap-2 bg-[#cbd5e1] dark:bg-[#120f1d] p-1.5 border-2 border-[#181425] dark:border-[#5a6988]">
+                        <button class="step-btn w-8 h-8 sm:w-9 sm:h-9 bg-white dark:bg-[#262b44] hover:bg-[#3b5dc9] hover:text-white dark:hover:bg-[#3b5dc9] text-gray-800 dark:text-white flex items-center justify-center pixel-btn" data-target="input-sessions" data-delta="-1">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <input type="number" id="input-sessions" value="4" min="1" max="20" class="w-10 sm:w-12 bg-transparent text-center font-pixel text-sm sm:text-base text-gray-900 dark:text-white focus:outline-none pointer-events-none" readonly>
+                        <button class="step-btn w-8 h-8 sm:w-9 sm:h-9 bg-white dark:bg-[#262b44] hover:bg-[#3b5dc9] hover:text-white dark:hover:bg-[#3b5dc9] text-gray-800 dark:text-white flex items-center justify-center pixel-btn" data-target="input-sessions" data-delta="1">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="mt-12 animate-bounce flex flex-col items-center text-sm font-bold text-white pixel-text-shadow bg-[#181425]/80 px-4 py-1.5 border-2 border-[#5a6988]">
+                <span class="text-xs mb-1 uppercase tracking-widest" data-i18n="scrollDown">Desliza abajo</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </main>
+
+    <!-- Info Section -->
+    <section class="bg-[#dce3f0] dark:bg-[#181425] py-20 px-6 flex flex-col items-center z-10 border-t-4 border-[#181425] dark:border-[#8b9bb4]">
+        <div class="max-w-4xl w-full">
+            <h2 class="text-2xl sm:text-3xl font-extrabold mb-10 text-center text-primary dark:text-[#639bff] pixel-text-shadow uppercase" data-i18n="infoTitle">El Método Pomodoro</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-lg leading-relaxed text-gray-800 dark:text-gray-200">
+                <div class="glass p-8">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b-2 border-[#5a6988]">
+                        <i class="fas fa-clock text-2xl text-primary dark:text-[#639bff]"></i>
+                        <h3 class="text-xl font-pixel text-gray-900 dark:text-white" data-i18n="whatIsTitle">¿Qué es?</h3>
+                    </div>
+                    <p data-i18n="whatIsDesc">El método Pomodoro es una técnica de gestión del tiempo desarrollada por Francesco Cirillo a fines de la década de 1980. Utiliza un temporizador para dividir el trabajo en intervalos de concentración profunda, tradicionalmente de 25 minutos, separados por breves descansos. Esto maximiza la agilidad mental y reduce la fatiga.</p>
+                </div>
+
+                <div class="glass p-8">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b-2 border-[#5a6988]">
+                        <i class="fas fa-list-check text-2xl text-breakMode"></i>
+                        <h3 class="text-xl font-pixel text-gray-900 dark:text-white" data-i18n="howToTitle">¿Cómo usar esta app?</h3>
+                    </div>
+                    <ol class="list-decimal pl-5 space-y-3 font-medium">
+                        <li data-i18n="step1">Anota tus tareas en la libreta. Selecciona las que vayas a realizar para moverlas al panel principal (tareas activas).</li>
+                        <li data-i18n="step2">Configura el tiempo de concentración, descanso y el número de sesiones usando los controles (+/-).</li>
+                        <li data-i18n="step3">Trabaja concentrado en tus tareas activas. Cuando termines una, márcala en el panel principal para enviarla a la libreta como completada.</li>
+                        <li data-i18n="step4">Al sonar la alarma, toma un descanso. Usa el modo 'Deporte' o 'Juego' para desconectar activamente.</li>
+                        <li data-i18n="step5">Tras completar el ciclo de sesiones (por defecto 4), tómate un descanso largo de 15-30 minutos para recargar energías.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Settings Modal (Retro OS Window Style) -->
+    <div id="modal-settings" class="fixed inset-0 bg-black/75 z-[100] hidden items-center justify-center opacity-0 transition-opacity duration-150 p-4">
+        <div class="glass w-full max-w-md transform scale-95 transition-transform duration-150 overflow-hidden">
+            <!-- Retro Title Bar -->
+            <div class="pixel-window-bar px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-sliders text-white"></i>
+                    <h2 class="text-base font-pixel text-white uppercase" data-i18n="settingsTitle">Ajustes</h2>
+                </div>
+                <button class="close-modal bg-pixelRed hover:bg-red-700 text-white w-8 h-8 pixel-btn flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-5">
+                <div class="flex justify-between items-center bg-[#cbd5e1] dark:bg-[#120f1d] p-4 border-2 border-[#181425] dark:border-[#5a6988]">
+                    <span class="font-bold text-lg text-gray-900 dark:text-gray-100 uppercase tracking-wider" data-i18n="darkMode">Modo Oscuro</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-theme" class="sr-only peer" checked>
+                        <div class="pixel-toggle-track"></div>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center bg-[#cbd5e1] dark:bg-[#120f1d] p-4 border-2 border-[#181425] dark:border-[#5a6988]">
+                    <span class="font-bold text-lg text-gray-900 dark:text-gray-100 uppercase tracking-wider" data-i18n="bgImage">Fondo Fotográfico</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-bg" class="sr-only peer" checked>
+                        <div class="pixel-toggle-track"></div>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center bg-[#cbd5e1] dark:bg-[#120f1d] p-4 border-2 border-[#181425] dark:border-[#5a6988]">
+                    <span class="font-bold text-lg text-gray-900 dark:text-gray-100 uppercase tracking-wider" data-i18n="bgMusic">Música</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="toggle-music" class="sr-only peer" checked>
+                        <div class="pixel-toggle-track"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col gap-2 pt-2">
+                    <label class="font-bold text-lg text-gray-900 dark:text-gray-100 uppercase tracking-wider" data-i18n="language">Idioma</label>
+                    <select id="select-lang" class="bg-[#cbd5e1] dark:bg-[#120f1d] border-3 border-[#181425] dark:border-[#8b9bb4] text-gray-900 dark:text-white focus:outline-none focus:border-primary block w-full p-3 font-bold text-lg cursor-pointer">
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Modal (Retro OS Window Style) -->
+    <div id="modal-tasks" class="fixed inset-0 bg-black/75 z-[100] hidden items-center justify-center opacity-0 transition-opacity duration-150 p-4">
+        <div class="glass w-full max-w-md transform scale-95 transition-transform duration-150 max-h-[85vh] flex flex-col overflow-hidden">
+            <!-- Retro Title Bar -->
+            <div class="pixel-window-bar px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-book text-white"></i>
+                    <h2 class="text-base font-pixel text-white uppercase" data-i18n="tasksTitle">Tareas</h2>
+                </div>
+                <button class="close-modal bg-pixelRed hover:bg-red-700 text-white w-8 h-8 pixel-btn flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="p-6 flex-1 flex flex-col overflow-hidden">
+                <form id="form-add-task" class="flex gap-2 mb-6">
+                    <input type="text" id="input-new-task" class="flex-1 bg-[#cbd5e1] dark:bg-[#120f1d] border-3 border-[#181425] dark:border-[#8b9bb4] p-3 focus:outline-none focus:border-primary text-gray-900 dark:text-white placeholder-gray-500 font-bold text-lg" placeholder="Nueva tarea..." required>
+                    <button type="submit" class="bg-primary hover:bg-primaryHover text-white px-5 pixel-btn font-bold">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </form>
+
+                <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                    <ul id="task-list" class="space-y-3">
+                        <!-- Tasks injected here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Toast Notification -->
+    <div id="toast-long-break" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-[150] bg-breakMode text-white px-6 py-4 border-4 border-[#181425] dark:border-white shadow-[6px_6px_0px_#0d0a14] flex items-center gap-4 transition-all duration-300 translate-y-32 opacity-0 w-max max-w-sm">
+        <i class="fas fa-mug-hot text-2xl"></i>
+        <span class="font-bold text-base uppercase tracking-wide" data-i18n="longBreakMsg">¡Ciclo completado! Tómate un descanso largo.</span>
+        <button id="btn-close-toast" class="ml-auto bg-[#181425]/40 hover:bg-[#181425]/80 text-white w-8 h-8 border-2 border-white flex items-center justify-center shrink-0">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
