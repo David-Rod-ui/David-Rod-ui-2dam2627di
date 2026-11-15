@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso de Creación - Pomodoro | David Rodríguez DAM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5b6ee1',
+                        primaryHover: '#4153c4',
+                        breakMode: '#38b764',
+                        pixelDark: '#181425',
+                        pixelPanel: '#262b44',
+                        pixelBorder: '#5a6988',
+                        pixelLight: '#8b9bb4',
+                        pixelGold: '#feae34',
+                        pixelRed: '#e43b44'
+                    },
+                    fontFamily: {
+                        pixel: ['"Press Start 2P"', 'monospace'],
+                        retro: ['"Pixelify Sans"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap');
+
+        /* --- Pixel Art Custom Cursors --- */
+        :root {
+            --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath fill='%23181425' d='M2 2h4v2h2v2h2v2h2v2h2v2h2v4h-4v2h2v4h-4v-4h-2v-2H8v2H6v2H2V2z'/%3E%3Cpath fill='%23ffffff' d='M4 4h2v2h2v2h2v2h2v2h2v2h-4v2H8v2H4V4z'/%3E%3Cpath fill='%23639bff' d='M4 6h2v10H4V6zm2 2h2v6H6V8zm4 6h2v4h-2v-4z'/%3E%3C/svg%3E") 2 2, auto;
+            --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath fill='%23181425' d='M8 2h4v6h6v2h2v10h-2v2H6v-2H4v-6H2v-4h4v2h2V2z'/%3E%3Cpath fill='%23feae34' d='M9 4h2v8h7v8H6v-6H4v-2h2v2h3V4z'/%3E%3Cpath fill='%23ffffff' d='M9 4h1v8H9V4zm3 6h5v1h-5v-1z'/%3E%3C/svg%3E") 9 2, pointer;
+        }
+
+        * {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            border-radius: 0px !important;
+            cursor: var(--cursor-default);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a, button, .cursor-pointer {
+            cursor: var(--cursor-pointer) !important;
+        }
+
+        body {
+            font-family: 'Pixelify Sans', monospace;
+            letter-spacing: 0.03em;
+            background-color: #181425;
+            color: #f0f4f8;
+        }
+
+        h1, h2, h3, .font-pixel {
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .bg-image-active {
+            background-image: url('Fondo.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            image-rendering: pixelated;
+        }
+
+        /* Retro Pixel Art Panel */
+        .glass {
+            background: rgba(24, 20, 37, 0.93);
+            border: 4px solid #8b9bb4;
+            box-shadow: 
+                inset 3px 3px 0px #3a4466,
+                inset -3px -3px 0px #120f1d,
+                8px 8px 0px #0d0a14;
+        }
+
+        /* CRT Terminal Box for Prompts */
+        .pixel-screen {
+            position: relative;
+            background: rgba(14, 11, 23, 0.96);
+            border: 4px solid #639bff;
+            box-shadow:
+                inset 4px 4px 0px #0d0a14,
+                inset -4px -4px 0px #262b44,
+                0 0 0 4px #181425,
+                6px 6px 0px #0d0a14;
+        }
+
+        .pixel-screen::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.22) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Pixel Art 3D Buttons */
+        .pixel-btn {
+            border: 3px solid #e2e8f0;
+            box-shadow: 
+                inset 3px 3px 0px rgba(255, 255, 255, 0.35),
+                inset -3px -3px 0px rgba(0, 0, 0, 0.35),
+                4px 4px 0px #0d0a14;
+            transition: transform 0.05s steps(2), box-shadow 0.05s steps(2), background-color 0.1s steps(2);
+        }
+
+        .pixel-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 
+                inset 3px 3px 0px rgba(255, 255, 255, 0.45),
+                inset -3px -3px 0px rgba(0, 0, 0, 0.35),
+                6px 6px 0px #0d0a14;
+        }
+
+        .pixel-btn:active {
+            transform: translate(3px, 3px) !important;
+            box-shadow: 
+                inset 3px 3px 0px rgba(0, 0, 0, 0.4),
+                1px 1px 0px #0d0a14 !important;
+        }
+
+        /* Retro Window Header Bar */
+        .pixel-window-bar {
+            background: linear-gradient(90deg, #262b44 0%, #3b5dc9 100%);
+            border-bottom: 4px solid #8b9bb4;
+        }
+
+        .pixel-window-bar-gold {
+            background: linear-gradient(90deg, #b45309 0%, #feae34 100%);
+            border-bottom: 4px solid #ffffff;
+        }
+
+        .pixel-window-bar-green {
+            background: linear-gradient(90deg, #1e6035 0%, #38b764 100%);
+            border-bottom: 4px solid #ffffff;
+        }
+
+        /* Pixel Text Shadows */
+        .pixel-title-shadow {
+            text-shadow: 4px 4px 0px #181425, -2px -2px 0px #3a4466;
+        }
+
+        .pixel-text-shadow {
+            text-shadow: 2px 2px 0px #0d0a14;
+        }
+
+        /* Screenshot Frame */
+        .pixel-img-frame {
+            border: 4px solid #8b9bb4;
+            background: #120f1d;
+            padding: 6px;
+            box-shadow: 6px 6px 0px #0d0a14;
+        }
+
+        /* Stepped Bounce */
+        @keyframes pixelBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-bounce {
+            animation: pixelBounce 0.8s steps(2) infinite;
+        }
+
+        /* Pixel Scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #181425; border-left: 2px solid #5a6988; }
+        ::-webkit-scrollbar-thumb { background: #5a6988; border: 2px solid #8b9bb4; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative bg-image-active">
+
+    <!-- Top Floating Navigation Bar -->
+    <nav class="fixed top-4 right-4 left-4 z-50 flex justify-between items-center pointer-events-none max-w-6xl mx-auto">
+        <a href="#portada" class="pointer-events-auto glass px-4 py-2 pixel-btn flex items-center gap-2 text-xs font-pixel text-[#639bff] hover:bg-primary hover:text-white">
+            <i class="fas fa-home"></i> <span class="hidden sm:inline">PORTADA</span>
+        </a>
+        <div class="pointer-events-auto flex gap-2">
+            <a href="#fase-1" class="glass px-3 py-2 pixel-btn text-xs font-pixel text-white hover:bg-primary">FASE 1</a>
+            <a href="#fase-final" class="glass px-3 py-2 pixel-btn text-xs font-pixel text-pixelGold hover:bg-amber-600 hover:text-white">FASE FINAL</a>
+            <a href="index.html" class="bg-breakMode px-3 py-2 pixel-btn text-xs font-pixel text-white hover:bg-green-600 flex items-center gap-2">
+                <i class="fas fa-play"></i> <span class="hidden sm:inline">ABRIR APP</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         PORTADA (COVER SCREEN)
+    =========================================== -->
+    <header id="portada" class="min-h-screen flex flex-col items-center justify-center p-6 relative">
+        <div class="w-full max-w-3xl glass overflow-hidden">
+            <!-- Retro OS Window Top Bar -->
+            <div class="pixel-window-bar px-5 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-floppy-disk text-[#639bff] text-lg"></i>
+                    <span class="font-pixel text-xs sm:text-sm text-white uppercase tracking-wider">PROYECTO_POMODORO.DOC</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-4 h-4 bg-[#8b9bb4] border-2 border-[#181425] inline-block"></span>
+                    <span class="w-4 h-4 bg-pixelGold border-2 border-[#181425] inline-block"></span>
+                    <span class="w-4 h-4 bg-pixelRed border-2 border-[#181425] inline-block"></span>
+                </div>
+            </div>
+
+            <!-- Cover Body -->
+            <div class="p-8 sm:p-14 flex flex-col items-center text-center relative">
+                <!-- Decorative Corner Rivets -->
+                <div class="w-3 h-3 bg-[#639bff] absolute top-4 left-4"></div>
+                <div class="w-3 h-3 bg-[#639bff] absolute top-4 right-4"></div>
+                <div class="w-3 h-3 bg-[#639bff] absolute bottom-4 left-4"></div>
+                <div class="w-3 h-3 bg-[#639bff] absolute bottom-4 right-4"></div>
+
+                <div class="bg-[#120f1d] border-2 border-[#5a6988] px-4 py-1.5 mb-6 text-xs font-pixel text-breakMode uppercase tracking-widest">
+                    <i class="fas fa-terminal mr-2"></i>Memoria del Proceso de Creación
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl font-extrabold text-white pixel-title-shadow uppercase mb-8 tracking-wider">
+                    Pomodoro
+                </h1>
+
+                <!-- Author & Course Metadata Box -->
+                <div class="pixel-screen w-full max-w-lg p-6 sm:p-8 mb-8 text-left space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-[#262b44] pb-3 gap-1">
+                        <span class="text-xs font-pixel text-[#8b9bb4] uppercase"><i class="fas fa-user-astronaut text-[#639bff] mr-2"></i>Autor:</span>
+                        <span class="text-xl sm:text-2xl font-bold text-white tracking-wide">David Rodríguez</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-[#262b44] pb-3 gap-1">
+                        <span class="text-xs font-pixel text-[#8b9bb4] uppercase"><i class="fas fa-graduation-cap text-pixelGold mr-2"></i>Ciclo:</span>
+                        <span class="text-xl sm:text-2xl font-bold text-pixelGold tracking-wide">DAM</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <span class="text-xs font-pixel text-[#8b9bb4] uppercase"><i class="fas fa-desktop text-breakMode mr-2"></i>Módulo:</span>
+                        <span class="text-xl sm:text-2xl font-bold text-breakMode tracking-wide">Desarrollo de interfaces</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#fase-1" class="bg-primary hover:bg-primaryHover text-white font-pixel text-xs sm:text-sm px-6 py-4 pixel-btn flex items-center gap-3 uppercase">
+                        <span>Ver Proceso de Creación</span>
+                        <i class="fas fa-arrow-down"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <a href="#fase-1" class="mt-10 animate-bounce flex flex-col items-center text-sm font-bold text-white pixel-text-shadow bg-[#181425]/90 px-4 py-2 border-2 border-[#5a6988]">
+            <span class="text-xs mb-1 uppercase tracking-widest">Desliza para leer</span>
+            <i class="fas fa-chevron-down text-[#639bff]"></i>
+        </a>
+    </header>
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL DEL DOCUMENTO
+    =========================================== -->
+    <main class="max-w-5xl w-full mx-auto px-4 sm:px-6 pb-24 space-y-16">
+
+        <!-- FASE PRIMERA HEADER -->
+        <section id="fase-1" class="pt-16">
+            <div class="glass p-6 sm:p-8 border-l-8 border-l-[#639bff]">
+                <div class="flex items-center gap-3 text-[#639bff] text-xs font-pixel uppercase mb-3">
+                    <i class="fas fa-layer-group text-lg"></i>
+                    <span>Etapa 01</span>
+                </div>
+                <h2 class="text-xl sm:text-3xl text-white pixel-text-shadow uppercase mb-3">
+                    Fase primera: estructurar las funciones
+                </h2>
+                <p class="text-xl text-[#8b9bb4] font-semibold">
+                    Los primeros prompts fueron para establecer las características del pomodoro.
+                </p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PRIMER PROMPT
+        =========================================== -->
+        <article class="glass overflow-hidden">
+            <div class="pixel-window-bar px-5 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="bg-primary text-white font-pixel text-xs px-2.5 py-1 border-2 border-white">#01</span>
+                    <h3 class="text-sm sm:text-base text-white uppercase">Primer Prompt</h3>
+                </div>
+                <i class="fas fa-terminal text-[#8b9bb4]"></i>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                <!-- Prompt Box -->
+                <div class="pixel-screen p-5 sm:p-6 space-y-4">
+                    <p class="text-lg sm:text-xl text-[#639bff] font-bold">
+                        "Quiero que me desarrolles una app con html, css y javascript para realizar el método pomodoro con las siguientes características:"
+                    </p>
+                    <ul class="space-y-3 text-lg text-gray-200">
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Opción de modo oscuro y modo claro (en una rueda de ajustes).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Unas casillas que te dejen elegir el tiempo de concentración, el de descanso y el número de sesiones.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Un círculo que se va cerrando conforme pasa el tiempo, con el contador en el tiempo.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>En la ruedita se puede poner el idioma entre español, inglés, francés y chino (por defecto español).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Habrá un modo de planificación deportiva de descansos que se puede activar o desactivar en los ajustes, por defecto desactivado (y esta meterá un ejercicio aleatorio en la pantalla principal entre sentadilla, flexiones, dominadas).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Tendrá una imagen de fondo, que podrá activarse o desactivarse en los ajustes.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Debajo de la pestaña de la rueda de ajustes habrá la imagen de una libreta que abrirá un calendario en el que podremos poner tareas y seleccionarlas como completadas.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Si scrolleas hacia abajo saldrá una explicación de en qué consiste el pomodoro y una guía de cómo usar la aplicación.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resultado -->
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-breakMode text-white font-pixel text-xs px-3 py-1.5 border-2 border-white mb-4 uppercase">
+                        <i class="fas fa-image"></i> Resultado:
+                    </div>
+                    <div class="pixel-img-frame max-w-2xl mx-auto">
+                        <img src="img/captura_1.png" alt="Resultado Primer Prompt" class="w-full h-auto block">
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             PROMPT 2
+        =========================================== -->
+        <article class="glass overflow-hidden">
+            <div class="pixel-window-bar px-5 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="bg-primary text-white font-pixel text-xs px-2.5 py-1 border-2 border-white">#02</span>
+                    <h3 class="text-sm sm:text-base text-white uppercase">Pront 2</h3>
+                </div>
+                <i class="fas fa-terminal text-[#8b9bb4]"></i>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                <div class="pixel-screen p-5 sm:p-6 space-y-4">
+                    <p class="text-lg sm:text-xl text-[#639bff] font-bold">
+                        "Mejora la app con las siguientes características:"
+                    </p>
+                    <ul class="space-y-3 text-lg text-gray-200">
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Incluir una opción de skip para saltar a la siguiente fase del pomodoro.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Darle forma que integren con el resto de la interfaz las flechas de aumentar y restar los números.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Quitar el recuadro que rodea el timer, que se integre con el fondo.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Meter una opción de juego en la que en el tiempo de descanso se puede jugar un juego sencillo, en este caso el dinosaurio de cuando no hay conexión en Google.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resultado -->
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-breakMode text-white font-pixel text-xs px-3 py-1.5 border-2 border-white mb-4 uppercase">
+                        <i class="fas fa-images"></i> Resultado:
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="pixel-img-frame">
+                            <img src="img/captura_2.png" alt="Resultado Prompt 2 - Concentración" class="w-full h-auto block">
+                        </div>
+                        <div class="pixel-img-frame">
+                            <img src="img/captura_3.png" alt="Resultado Prompt 2 - Descanso con juego" class="w-full h-auto block">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             PROMPT 3
+        =========================================== -->
+        <article class="glass overflow-hidden">
+            <div class="pixel-window-bar px-5 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="bg-primary text-white font-pixel text-xs px-2.5 py-1 border-2 border-white">#03</span>
+                    <h3 class="text-sm sm:text-base text-white uppercase">Pront 3</h3>
+                </div>
+                <i class="fas fa-terminal text-[#8b9bb4]"></i>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                <div class="pixel-screen p-5 sm:p-6 space-y-4">
+                    <ul class="space-y-3 text-lg text-gray-200">
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>El botón reiniciar del juego no funciona, arréglalo.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Un contador por la sesión que va respecto a las totales, ejemplo: sesión 2/4.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>El juego pase a ser tipo Geometry Dash.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resultado -->
+                <div class="bg-[#262b44] border-4 border-pixelGold p-4 flex items-start gap-4">
+                    <i class="fas fa-triangle-exclamation text-pixelGold text-2xl mt-1"></i>
+                    <div>
+                        <span class="font-pixel text-xs text-pixelGold uppercase block mb-1">Resultado:</span>
+                        <p class="text-lg text-white font-semibold">
+                            No me puso el contador de sesiones, así que se lo especifiqué mejor en el siguiente prompt.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             PROMPT 4
+        =========================================== -->
+        <article class="glass overflow-hidden">
+            <div class="pixel-window-bar px-5 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="bg-primary text-white font-pixel text-xs px-2.5 py-1 border-2 border-white">#04</span>
+                    <h3 class="text-sm sm:text-base text-white uppercase">Pront 4</h3>
+                </div>
+                <i class="fas fa-terminal text-[#8b9bb4]"></i>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                <div class="pixel-screen p-5 sm:p-6 space-y-4">
+                    <ul class="space-y-4 text-lg text-gray-200">
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Ponme arriba a la izquierda un círculo que ponga el contador de sesiones, ejemplo <strong>sesión 1/4</strong>, es decir que todavía vas por el primer ciclo pomodoro. Cuando termines el descanso empieza la siguiente sesión y en este caso pondrá <strong>2/4</strong>; cuando termines las sesiones se pondrá un check sobre el círculo y pondrá un mensaje de <em>"tómate un descanso largo"</em>.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>El círculo central del cronómetro quiero que el fondo se vea difuminado, además el círculo que va completando quiero que haga el recorrido completo.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resultado -->
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-breakMode text-white font-pixel text-xs px-3 py-1.5 border-2 border-white mb-4 uppercase">
+                        <i class="fas fa-image"></i> Resultado:
+                    </div>
+                    <div class="pixel-img-frame max-w-xl mx-auto">
+                        <img src="img/captura_4.png" alt="Resultado Prompt 4" class="w-full h-auto block">
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             PROMPT 5
+        =========================================== -->
+        <article class="glass overflow-hidden">
+            <div class="pixel-window-bar px-5 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="bg-primary text-white font-pixel text-xs px-2.5 py-1 border-2 border-white">#05</span>
+                    <h3 class="text-sm sm:text-base text-white uppercase">Pront 5</h3>
+                </div>
+                <i class="fas fa-terminal text-[#8b9bb4]"></i>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                <div class="pixel-screen p-5 sm:p-6 space-y-4">
+                    <ul class="space-y-4 text-lg text-gray-200">
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Pon tres <em>segment buttons</em> para las tres opciones (<strong>normal</strong>, <strong>deportivo</strong> o <strong>juego</strong>) y quítalas del engranaje; se ve cuál de los tres modos está seleccionado. El normal es como si no estuviera seleccionado ni juego ni deporte, y lo otro como las opciones del engranaje que tienes que quitar.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Para el mensaje de "tómate un descanso", que salga un mensaje tipo <em>toast</em> en la pantalla que esté <em>sticky</em>, ya que como está actualmente no se ve parte del mensaje.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resultado -->
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-breakMode text-white font-pixel text-xs px-3 py-1.5 border-2 border-white mb-4 uppercase">
+                        <i class="fas fa-image"></i> Resultado:
+                    </div>
+                    <div class="pixel-img-frame max-w-xl mx-auto">
+                        <img src="img/captura_5.png" alt="Resultado Prompt 5" class="w-full h-auto block">
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             PROMPT 6
+        =========================================== -->
+        <article class="glass overflow-hidden">
+            <div class="pixel-window-bar px-5 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="bg-primary text-white font-pixel text-xs px-2.5 py-1 border-2 border-white">#06</span>
+                    <h3 class="text-sm sm:text-base text-white uppercase">Pront 6</h3>
+                </div>
+                <i class="fas fa-terminal text-[#8b9bb4]"></i>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-6">
+                <div class="pixel-screen p-5 sm:p-6 space-y-4">
+                    <ul class="space-y-3 text-lg text-gray-200">
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Quiero que en la pestaña libreta puedas seleccionar con un checkbox las tareas y en vez de ponerse en completadas te saldrán en una lista a la izquierda debajo del contador de sesiones, y en la lista puedas con otro checkbox seleccionar que la completaste; estas desaparecerán de la lista y aparecerán en el menú de la libreta como completadas.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Añádele animaciones de desvanecido.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Ponlo por defecto con el modo oscuro activado.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-pixelGold font-pixel text-xs mt-1.5">■</span>
+                            <span>Ampliar las instrucciones de la descripción de abajo con las nuevas funciones y de las antiguas un poco más detalladas en todos los idiomas disponibles.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resultado -->
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-breakMode text-white font-pixel text-xs px-3 py-1.5 border-2 border-white mb-4 uppercase">
+                        <i class="fas fa-image"></i> Resultado:
+                    </div>
+                    <div class="pixel-img-frame max-w-xl mx-auto">
+                        <img src="img/captura_6.png" alt="Resultado Prompt 6" class="w-full h-auto block">
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             FASE FINAL
+        =========================================== -->
+        <section id="fase-final" class="pt-8 space-y-8">
+            <div class="glass overflow-hidden border-pixelGold">
+                <div class="pixel-window-bar-gold px-5 py-3 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-wand-magic-sparkles text-[#181425] text-lg"></i>
+                        <h2 class="text-sm sm:text-base text-[#181425] uppercase">Fase Final: Estilo Visual Pixel Art</h2>
+                    </div>
+                    <span class="font-pixel text-[10px] bg-[#181425] text-pixelGold px-2 py-1">ANTIGRAVITY + GEMINI 4 ARGÓN</span>
+                </div>
+
+                <div class="p-6 sm:p-8 space-y-6">
+                    <p class="text-xl leading-relaxed text-gray-100 bg-[#262b44] p-5 border-2 border-[#8b9bb4]">
+                        Una vez terminadas todas las implementaciones decidí cambiar el estilo visual a algo más vistoso pero a la vez relajante; entonces busqué un <strong>GIF pixel art en Pinterest</strong> para poner de fondo de la página y una <strong>música relajante</strong> para que sonara, y cambié de usar Gemini Pro a usar <strong>Antigravity</strong> como agente y <strong>Gemini 4 Argón</strong> como modelo, y le puse el siguiente prompt:
+                    </p>
+
+                    <div class="pixel-screen p-5 sm:p-6">
+                        <div class="text-xs font-pixel text-pixelGold uppercase mb-2">Prompt Final:</div>
+                        <p class="text-lg sm:text-xl text-white font-bold">
+                            "-quiero que cambies el css de todos los elementos para que tenga todo un estilo pixel art en coherencia con el fondo que he puesto este es el código eta igual en la carpeta del proyecto"
+                        </p>
+                    </div>
+
+                    <!-- Captura de transición al fondo Pixel Art -->
+                    <div>
+                        <div class="inline-flex items-center gap-2 bg-primary text-white font-pixel text-xs px-3 py-1.5 border-2 border-white mb-4 uppercase">
+                            <i class="fas fa-desktop"></i> Vista previa con el nuevo fondo:
+                        </div>
+                        <div class="pixel-img-frame">
+                            <img src="img/captura_7.png" alt="Fase Final - Cambio a fondo Pixel Art" class="w-full h-auto block">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTADO FINAL / GITHUB -->
+            <div class="glass overflow-hidden border-breakMode">
+                <div class="pixel-window-bar-green px-5 py-3 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <i class="fab fa-github text-white text-xl"></i>
+                        <h3 class="text-sm sm:text-base text-white uppercase">Resultado Final</h3>
+                    </div>
+                    <i class="fas fa-check-double text-white"></i>
+                </div>
+
+                <div class="p-8 text-center space-y-6">
+                    <p class="text-2xl sm:text-3xl font-bold text-white pixel-text-shadow">
+                        "El resultado final es el resultado de la página subida al GitHub"
+                    </p>
+                    <div class="flex justify-center">
+                        <a href="index.html" class="bg-breakMode hover:bg-green-600 text-white font-pixel text-xs sm:text-sm px-8 py-4 pixel-btn inline-flex items-center gap-3 uppercase">
+                            <i class="fas fa-gamepad text-lg"></i>
+                            <span>Ver Aplicación Pomodoro Final</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#120f1d] border-t-4 border-[#8b9bb4] py-6 px-4 text-center text-sm text-[#8b9bb4] font-pixel">
+        POMODORO PIXEL ART &bull; DAVID RODRÍGUEZ &bull; DAM - DESARROLLO DE INTERFACES
+    </footer>
+
+</body>
+</html>
