@@ -14,7 +14,7 @@
   <!-- Phosphor Icons (misma librería de iconos usada en This is Barcelona) -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
@@ -24,9 +24,9 @@
   <header class="tib-header">
     <div class="tib-header__top">
       <div class="tib-header__left-bar">
-        <button class="tib-icon-btn" onclick="document.getElementById('tibDrawer').classList.add('is-open')" title="Abrir menú completo">
+        <button id="topMenuBurgerBtn" class="tib-icon-btn tib-menu-btn" onclick="document.getElementById('tibDrawer').classList.add('is-open')" title="Abrir menú completo" aria-label="Abrir menú">
           <i class="ph ph-list"></i>
-          <span>Menú</span>
+          <span class="tib-menu-btn__label">Menú</span>
         </button>
         <button class="tib-icon-btn" onclick="switchTab('inicio'); setTimeout(() => document.getElementById('explorerSearchInput')?.focus(), 200);" title="Buscador">
           <i class="ph ph-magnifying-glass"></i>
@@ -182,8 +182,11 @@
                 Es tierra de granito, cortinas de piedra seca y cascadas escondidas. O La Cabeza, como la llamamos los de aquí.
               </h1>
               <div class="tib-hero__meta-pills">
-                <span class="tib-hero__meta-pill">41°12'54"N, 6°26'17"O</span>
-                <span class="tib-hero__meta-pill">Altitud: 792 msnm</span>
+                <a class="tib-hero__meta-pill tib-hero__meta-pill--cta" href="https://www.google.com/maps/dir/?api=1&amp;destination=Cabeza+de+Framontanos,+37174+Salamanca" target="_blank" rel="noopener">
+                  <span>Cómo llegar</span>
+                  <i class="ph-bold ph-arrow-up-right"></i>
+                </a>
+                <span class="tib-hero__meta-pill">Habitantes: 69</span>
                 <span class="tib-hero__meta-pill">Superficie: 102,64 km²</span>
                 <span class="tib-hero__meta-pill">San Juan Bautista · 24 Junio</span>
                 <span class="tib-hero__meta-pill">C.P. 37174 · Salamanca</span>
@@ -1387,6 +1390,12 @@
     </div>
   </footer>
 
-  <script src="app.js?v=6"></script>
+  <!-- Botón flotante "Menú" abajo a la derecha (solo móvil/tablet vertical al desaparecer la hamburguesa) -->
+  <button id="mobileFloatingMenuBtn" class="tib-floating-menu-btn" onclick="document.getElementById('tibDrawer').classList.add('is-open')" aria-label="Abrir menú">
+    <i class="ph ph-list"></i>
+    <span>Menú</span>
+  </button>
+
+  <script src="app.js?v=8"></script>
 </body>
 </html>

@@ -587,6 +587,29 @@ img {
   padding: 0.35rem 0.75rem;
   font-size: 0.8rem;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tib-hero__meta-pill--cta {
+  background: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tib-hero__meta-pill--cta:hover {
+  background: var(--brand-yellow);
+  border-color: var(--brand-yellow);
+  transform: translate3d(0, -2px, 0);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.tib-hero__meta-pill--cta i {
+  font-size: 0.95rem;
 }
 
 .tib-hero__controls {
@@ -1973,5 +1996,88 @@ img {
     transform: none !important;
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   14. MÓVIL VERTICAL Y TABLET: SOLO HAMBURGUESA, SIN BARRA DE PESTAÑAS Y
+       BOTÓN FLOTANTE NEGRO "MENÚ" ABAJO A LA DERECHA
+   ========================================================================== */
+
+.tib-floating-menu-btn {
+  display: none;
+}
+
+@media (max-width: 1024px) and (orientation: portrait), (max-width: 768px) {
+  /* Cabecera no sticky para que la hamburguesa desaparezca al bajar */
+  .tib-header {
+    position: relative;
+  }
+
+  /* Solo el icono de las tres líneas (sin texto "Menú") */
+  .tib-menu-btn__label {
+    display: none;
+  }
+
+  .tib-menu-btn {
+    padding: 0.42rem 0.5rem;
+  }
+
+  .tib-menu-btn i {
+    font-size: 1.55rem;
+  }
+
+  /* Desaparece la barra inferior de pestañas */
+  .tib-nav-strip {
+    display: none;
+  }
+
+  /* La portada ocupa el 100% de la pantalla */
+  .tib-hero {
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  /* Botón sticky negro "Menú" abajo a la derecha al desaparecer la hamburguesa */
+  .tib-floating-menu-btn {
+    position: fixed;
+    right: 1.15rem;
+    bottom: 1.15rem;
+    z-index: 1500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-black);
+    color: var(--color-white);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    padding: 0.82rem 1.35rem;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38);
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.92);
+    pointer-events: none;
+    transition:
+      opacity 0.32s ease,
+      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.2s ease;
+  }
+
+  .tib-floating-menu-btn i {
+    font-size: 1.2rem;
+  }
+
+  .tib-floating-menu-btn.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    pointer-events: auto;
+  }
+
+  .tib-floating-menu-btn:active {
+    transform: scale(0.94);
   }
 }

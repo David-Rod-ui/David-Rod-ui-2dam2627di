@@ -1663,6 +1663,16 @@ function updateHeroScrollState() {
   const hero = document.getElementById('tibHero');
   const brandReveal = document.getElementById('headerBrandReveal');
   const inicioPanel = document.getElementById('tab-inicio');
+  const floatingMenuBtn = document.getElementById('mobileFloatingMenuBtn');
+  const topBurgerBtn = document.getElementById('topMenuBurgerBtn');
+
+  // En móvil vertical y tablet: mostrar el botón flotante negro "Menú" cuando desaparece la hamburguesa superior
+  if (floatingMenuBtn && topBurgerBtn) {
+    const burgerRect = topBurgerBtn.getBoundingClientRect();
+    const burgerHidden = burgerRect.bottom <= 0;
+    floatingMenuBtn.classList.toggle('is-visible', burgerHidden);
+  }
+
   if (!hero || !brandReveal || !inicioPanel) return;
 
   const isInicioActive = inicioPanel.classList.contains('is-active');
@@ -1726,6 +1736,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateHeroScrollState();
   initScrollReveal(document.getElementById('tab-inicio'));
   window.addEventListener('scroll', updateHeroScrollState, { passive: true });
+  window.addEventListener('resize', updateHeroScrollState, { passive: true });
 
   // Buscador de portada
   const explorerSearch = document.getElementById('explorerSearchInput');
