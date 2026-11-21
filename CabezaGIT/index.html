@@ -14,7 +14,7 @@
   <!-- Phosphor Icons (misma librería de iconos usada en This is Barcelona) -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 
@@ -161,42 +161,44 @@
          ====================================================================== -->
     <section id="tab-inicio" class="tib-tab-panel is-active">
 
-      <!-- 1.1. HERO PANTALLA COMPLETA CON DESVANECIDO AL HACER SCROLL -->
-      <div id="tibHero" class="tib-hero">
-        <div class="tib-hero__bg"></div>
+      <!-- 1.1. HERO PANTALLA COMPLETA STICKY CON DESVANECIDO AL HACER SCROLL -->
+      <div class="tib-hero-stage">
+        <div id="tibHero" class="tib-hero">
+          <div class="tib-hero__bg"></div>
 
-        <div class="tib-hero__top-row">
-          <span class="tib-hero__kinetic-word tib-hero__fade-up" aria-label="THIS">
-            <span>T</span><span>H</span><span>I</span><span>S</span>
-          </span>
-          <span class="tib-hero__giant-letter tib-hero__fade-up" aria-label="IS">IS</span>
-        </div>
+          <div class="tib-hero__top-row">
+            <span class="tib-hero__kinetic-word tib-hero__fade-up" aria-label="THIS">
+              <span>T</span><span>H</span><span>I</span><span>S</span>
+            </span>
+            <span class="tib-hero__giant-letter tib-hero__fade-up" aria-label="IS">IS</span>
+          </div>
 
-        <!-- Bloque editorial que aparece al desvanecerse las letras -->
-        <div class="tib-hero__center-reveal">
-          <div class="tib-hero__editorial-copy">
-            <span class="tib-hero__kicker"><i class="ph-fill ph-compass"></i> Comarca de La Ramajería · Arribes del Duero</span>
-            <h1 class="tib-hero__tagline">
-              Es tierra de granito, cortinas de piedra seca y cascadas escondidas. O La Cabeza, como la llamamos los de aquí.
-            </h1>
-            <div class="tib-hero__meta-pills">
-              <span class="tib-hero__meta-pill">41°12'54"N, 6°26'17"O</span>
-              <span class="tib-hero__meta-pill">Altitud: 792 msnm</span>
-              <span class="tib-hero__meta-pill">Superficie: 102,64 km²</span>
-              <span class="tib-hero__meta-pill">San Juan Bautista · 24 Junio</span>
-              <span class="tib-hero__meta-pill">C.P. 37174 · Salamanca</span>
+          <!-- Bloque editorial que aparece al desvanecerse las letras -->
+          <div class="tib-hero__center-reveal">
+            <div class="tib-hero__editorial-copy">
+              <span class="tib-hero__kicker"><i class="ph-fill ph-compass"></i> Comarca de La Ramajería · Arribes del Duero</span>
+              <h1 class="tib-hero__tagline">
+                Es tierra de granito, cortinas de piedra seca y cascadas escondidas. O La Cabeza, como la llamamos los de aquí.
+              </h1>
+              <div class="tib-hero__meta-pills">
+                <span class="tib-hero__meta-pill">41°12'54"N, 6°26'17"O</span>
+                <span class="tib-hero__meta-pill">Altitud: 792 msnm</span>
+                <span class="tib-hero__meta-pill">Superficie: 102,64 km²</span>
+                <span class="tib-hero__meta-pill">San Juan Bautista · 24 Junio</span>
+                <span class="tib-hero__meta-pill">C.P. 37174 · Salamanca</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="tib-hero__bottom-row">
-          <span class="tib-hero__kinetic-word tib-hero__fade-down" aria-label="CABEZA">
-            <span>C</span><span>A</span><span>B</span><span>E</span><span>Z</span><span>A</span>
-          </span>
+          <div class="tib-hero__bottom-row">
+            <span class="tib-hero__kinetic-word tib-hero__fade-down" aria-label="CABEZA">
+              <span>C</span><span>A</span><span>B</span><span>E</span><span>Z</span><span>A</span>
+            </span>
 
-          <div class="tib-hero__scroll-hint">
-            <span>Baja para descubrir</span>
-            <i class="ph ph-arrow-down"></i>
+            <div class="tib-hero__scroll-hint">
+              <span>Baja para descubrir</span>
+              <i class="ph ph-arrow-down"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -1351,6 +1353,6 @@
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>
