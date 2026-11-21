@@ -23,22 +23,24 @@
        ======================================================================== -->
   <header class="tib-header">
     <div class="tib-header__top">
-      <a href="#inicio" class="tib-logo" onclick="switchTab('inicio'); return false;">
-        <span>THIS IS LA CABEZA</span>
-        <span class="tib-logo__badge">37174</span>
-        <span class="tib-logo__sub">Entre la Ramajería y los Arribes del Duero · Salamanca</span>
-      </a>
-
-      <div class="tib-header__actions">
-        <button class="tib-icon-btn" onclick="switchTab('inicio'); document.getElementById('explorerSearchInput')?.focus();" title="Buscador">
-          <i class="ph ph-magnifying-glass"></i>
-          <span>Buscar</span>
-        </button>
+      <div class="tib-header__left-bar">
         <button class="tib-icon-btn" onclick="document.getElementById('tibDrawer').classList.add('is-open')" title="Abrir menú completo">
           <i class="ph ph-list"></i>
           <span>Menú</span>
         </button>
+        <button class="tib-icon-btn" onclick="switchTab('inicio'); setTimeout(() => document.getElementById('explorerSearchInput')?.focus(), 200);" title="Buscador">
+          <i class="ph ph-magnifying-glass"></i>
+          <span>Buscar</span>
+        </button>
+        <a href="#inicio" class="tib-logo__badge" onclick="switchTab('inicio'); return false;" title="Cabeza de Framontanos · Código Postal 37174">
+          <i class="ph-bold ph-map-pin"></i>
+          <span>C.P. 37174</span>
+        </a>
       </div>
+
+      <a href="#inicio" id="headerBrandReveal" class="tib-header__brand-reveal" onclick="switchTab('inicio'); return false;">
+        THIS IS LA CABEZA DE FRAMONTANOS
+      </a>
     </div>
 
     <!-- Barra de Pestañas con las 9 secciones de la web de Cabeza de Framontanos -->
@@ -159,42 +161,42 @@
          ====================================================================== -->
     <section id="tab-inicio" class="tib-tab-panel is-active">
 
-      <!-- 1.1. HERO SWISS-POSTER (T / IS / C) -->
+      <!-- 1.1. HERO PANTALLA COMPLETA CON DESVANECIDO AL HACER SCROLL -->
       <div id="tibHero" class="tib-hero">
         <div class="tib-hero__bg"></div>
 
         <div class="tib-hero__top-row">
-          <div class="tib-hero__corner-group">
-            <span class="tib-hero__giant-letter">T</span>
-            <div class="tib-hero__wordmark-stack">
-              THIS<br>IS<br>LA CABEZA<br>DE FRAMONTANOS
+          <span class="tib-hero__kinetic-word tib-hero__fade-up" aria-label="THIS">
+            <span>T</span><span>H</span><span>I</span><span>S</span>
+          </span>
+          <span class="tib-hero__giant-letter tib-hero__fade-up" aria-label="IS">IS</span>
+        </div>
+
+        <!-- Bloque editorial que aparece al desvanecerse las letras -->
+        <div class="tib-hero__center-reveal">
+          <div class="tib-hero__editorial-copy">
+            <span class="tib-hero__kicker"><i class="ph-fill ph-compass"></i> Comarca de La Ramajería · Arribes del Duero</span>
+            <h1 class="tib-hero__tagline">
+              Es tierra de granito, cortinas de piedra seca y cascadas escondidas. O La Cabeza, como la llamamos los de aquí.
+            </h1>
+            <div class="tib-hero__meta-pills">
+              <span class="tib-hero__meta-pill">41°12'54"N, 6°26'17"O</span>
+              <span class="tib-hero__meta-pill">Altitud: 792 msnm</span>
+              <span class="tib-hero__meta-pill">Superficie: 102,64 km²</span>
+              <span class="tib-hero__meta-pill">San Juan Bautista · 24 Junio</span>
+              <span class="tib-hero__meta-pill">C.P. 37174 · Salamanca</span>
             </div>
           </div>
-          <span class="tib-hero__giant-letter">IS</span>
         </div>
 
         <div class="tib-hero__bottom-row">
-          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <div class="tib-hero__editorial-copy">
-              <span class="tib-hero__kicker"><i class="ph-fill ph-compass"></i> Comarca de La Ramajería · Arribes del Duero</span>
-              <h1 class="tib-hero__tagline">
-                Es tierra de granito, cortinas de piedra seca y cascadas escondidas. O La Cabeza, como la llamamos los de aquí.
-              </h1>
-              <div class="tib-hero__meta-pills">
-                <span class="tib-hero__meta-pill">41°12'54"N, 6°26'17"O</span>
-                <span class="tib-hero__meta-pill">Altitud: 792 msnm</span>
-                <span class="tib-hero__meta-pill">Superficie: 102,64 km²</span>
-                <span class="tib-hero__meta-pill">San Juan Bautista · 24 Junio</span>
-                <span class="tib-hero__meta-pill">C.P. 37174 · Salamanca</span>
-              </div>
-            </div>
-            <span class="tib-hero__giant-letter">C</span>
-          </div>
+          <span class="tib-hero__kinetic-word tib-hero__fade-down" aria-label="CABEZA">
+            <span>C</span><span>A</span><span>B</span><span>E</span><span>Z</span><span>A</span>
+          </span>
 
-          <div class="tib-hero__controls">
-            <button id="heroMotionToggle" class="tib-circle-btn" title="Pausar/Reanudar movimiento">
-              <i class="ph ph-pause"></i>
-            </button>
+          <div class="tib-hero__scroll-hint">
+            <span>Baja para descubrir</span>
+            <i class="ph ph-arrow-down"></i>
           </div>
         </div>
       </div>

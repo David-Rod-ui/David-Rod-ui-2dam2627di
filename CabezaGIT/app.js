@@ -1244,6 +1244,7 @@ function switchTab(tabId, subTabId) {
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(updateHeroScrollState, 50);
 }
 
 function switchSubTab(parentTabId, subPanelId) {
@@ -1547,6 +1548,23 @@ function closeModal() {
   document.getElementById('tibModal')?.classList.remove('is-open');
 }
 
+function updateHeroScrollState() {
+  const hero = document.getElementById('tibHero');
+  const brandReveal = document.getElementById('headerBrandReveal');
+  const inicioPanel = document.getElementById('tab-inicio');
+  if (!hero || !brandReveal || !inicioPanel) return;
+
+  const isInicioActive = inicioPanel.classList.contains('is-active');
+  if (!isInicioActive) {
+    brandReveal.classList.add('is-visible');
+    return;
+  }
+
+  const hasScrolled = window.scrollY > 30;
+  hero.classList.toggle('is-scrolled', hasScrolled);
+  brandReveal.classList.toggle('is-visible', hasScrolled);
+}
+
 /* Inicialización al cargar la página */
 document.addEventListener('DOMContentLoaded', () => {
   renderExplorer();
@@ -1557,11 +1575,9 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRecipes();
   renderHerbs();
 
-  // Animación sutil del Hero estilo This is Barcelona
-  const hero = document.getElementById('tibHero');
-  if (hero) {
-    setTimeout(() => hero.classList.add('is-animated'), 150);
-  }
+  // Estado inicial y control al hacer scroll en portada
+  updateHeroScrollState();
+  window.addEventListener('scroll', updateHeroScrollState, { passive: true });
 
   // Buscador de portada
   const explorerSearch = document.getElementById('explorerSearchInput');
@@ -1578,16 +1594,6 @@ document.addEventListener('DOMContentLoaded', () => {
     dictSearch.addEventListener('input', (e) => {
       currentDictSearch = e.target.value;
       renderDictionary();
-    });
-  }
-
-  // Botón de pausa/animación del hero
-  const heroToggleBtn = document.getElementById('heroMotionToggle');
-  if (heroToggleBtn && hero) {
-    heroToggleBtn.addEventListener('click', () => {
-      const paused = hero.classList.toggle('is-paused');
-      hero.classList.toggle('is-animated', !paused);
-      heroToggleBtn.innerHTML = paused ? '<i class="ph ph-play"></i>' : '<i class="ph ph-pause"></i>';
     });
   }
 
