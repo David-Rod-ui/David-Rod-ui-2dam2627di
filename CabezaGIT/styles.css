@@ -2081,3 +2081,46 @@ img {
     transform: scale(0.94);
   }
 }
+
+/* ==========================================================================
+   15. MÓVIL EN VERTICAL: STACK VERTICAL JUNTO (THIS / IS / CABEZA / BAJA)
+   ========================================================================== */
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .tib-hero {
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .tib-hero__top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    margin: 0;
+  }
+
+  .tib-hero__bottom-row {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1.25rem;
+    margin: 0;
+  }
+
+  .tib-hero__giant-letter,
+  .tib-hero__kinetic-word {
+    font-size: clamp(3.8rem, 19vw, 5.4rem);
+    line-height: 0.88;
+  }
+
+  .tib-hero__scroll-hint {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    font-size: 0.82rem;
+    padding: 0.55rem 1rem;
+  }
+}
