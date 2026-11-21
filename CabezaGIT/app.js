@@ -5,6 +5,47 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
+   0. GOOGLE STREET VIEW API (OPCIONAL)
+   Pega aquí tu clave gratuita de Google Maps Embed API (Street View) si deseas
+   usar el endpoint oficial v1/streetview. Si queda vacía, el visor funciona
+   igualmente en modo interactivo con Google Street View.
+   -------------------------------------------------------------------------- */
+const GOOGLE_MAPS_API_KEY = '';
+
+const STREET_VIEW_SPOTS = [
+  {
+    name: 'Calle El Toral y Centro',
+    lat: 41.2151,
+    lng: -6.4379,
+    heading: 280
+  },
+  {
+    name: 'Plaza e Iglesia de San Juan Bautista',
+    lat: 41.2156,
+    lng: -6.4386,
+    heading: 190
+  },
+  {
+    name: 'Fronton y Bar Toñi',
+    lat: 41.2135183,
+    lng: -6.4383546,
+    heading: 90
+  },
+  {
+    name: 'Carretera de Villarino',
+    lat: 41.2150778,
+    lng: -6.4399966,
+    heading: 20
+  },
+  {
+    name: 'Resbalina',
+    lat: 41.2158778,
+    lng: -6.4374817,
+    heading: 15
+  }
+];
+
+/* --------------------------------------------------------------------------
    1. CONFIGURACIÓN DE IMÁGENES
    -------------------------------------------------------------------------- */
 const IMAGES = {
@@ -1222,29 +1263,87 @@ let currentDictLetter = 'TODAS';
 let currentDictSearch = '';
 let currentRecipeCategory = 'Todas';
 let currentLugarCategory = 'Todos';
+let scrollRevealObserver = null;
+let tabSwitchTimer = null;
+
+function initScrollReveal(rootEl) {
+  const scope = rootEl || document.querySelector('.tib-tab-panel.is-active') || document;
+  const targets = scope.querySelectorAll(
+    '.tib-card, .tib-interest-card, .tib-dict-item, .tib-video-card, .tib-editorial-split, .tib-kinetic-poster__item, .tib-doc-quote, #routesContainer > div'
+  );
+
+  if (!targets.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(el => {
+      el.classList.remove('tib-reveal');
+      el.classList.add('is-revealed');
+    });
+    return;
+  }
+
+  if (!scrollRevealObserver) {
+    scrollRevealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          scrollRevealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+  }
+
+  targets.forEach((el, index) => {
+    el.classList.remove('is-revealed');
+    el.classList.add('tib-reveal');
+    const staggerMs = (index % 4) * 75;
+    el.style.setProperty('--reveal-delay', `${staggerMs}ms`);
+    scrollRevealObserver.observe(el);
+  });
+}
 
 function switchTab(tabId, subTabId) {
-  // Activate main tab button
+  if (tabSwitchTimer) clearTimeout(tabSwitchTimer);
+
+  // Activate main tab button immediately
   document.querySelectorAll('.tib-tab-btn').forEach(btn => {
     btn.classList.toggle('is-active', btn.dataset.tab === tabId);
   });
 
-  // Activate main tab panel
-  document.querySelectorAll('.tib-tab-panel').forEach(panel => {
-    panel.classList.toggle('is-active', panel.id === `tab-${tabId}`);
-  });
-
-  // Close drawer if open
+  // Close drawer smoothly if open
   const drawer = document.getElementById('tibDrawer');
   if (drawer) drawer.classList.remove('is-open');
 
-  // If subTabId is requested, switch to it
-  if (subTabId) {
-    switchSubTab(tabId, subTabId);
-  }
+  const currentPanel = document.querySelector('.tib-tab-panel.is-active');
+  const nextPanel = document.getElementById(`tab-${tabId}`);
+  if (!nextPanel) return;
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(updateHeroScrollState, 50);
+  const activateNext = () => {
+    document.querySelectorAll('.tib-tab-panel').forEach(panel => {
+      panel.classList.remove('is-active', 'is-leaving');
+    });
+    nextPanel.classList.add('is-active');
+
+    if (subTabId) {
+      switchSubTab(tabId, subTabId);
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      updateHeroScrollState();
+      initScrollReveal(nextPanel);
+    }, 60);
+  };
+
+  if (currentPanel && currentPanel !== nextPanel) {
+    currentPanel.classList.add('is-leaving');
+    tabSwitchTimer = setTimeout(activateNext, 180);
+  } else {
+    activateNext();
+  }
 }
 
 function switchSubTab(parentTabId, subPanelId) {
@@ -1256,7 +1355,11 @@ function switchSubTab(parentTabId, subPanelId) {
   });
 
   parentPanel.querySelectorAll('.tib-subpanel').forEach(sub => {
-    sub.classList.toggle('is-active', sub.id === subPanelId);
+    const isTarget = sub.id === subPanelId;
+    sub.classList.toggle('is-active', isTarget);
+    if (isTarget) {
+      setTimeout(() => initScrollReveal(sub), 30);
+    }
   });
 }
 
@@ -1299,6 +1402,8 @@ function renderExplorer() {
       </div>
     </article>
   `).join('');
+
+  initScrollReveal(grid);
 }
 
 function setExplorerCategory(cat) {
@@ -1345,6 +1450,8 @@ function renderLugares() {
       </article>
     `;
   }).join('');
+
+  initScrollReveal(gridEl);
 }
 
 function setLugarCategory(cat) {
@@ -1433,6 +1540,8 @@ function renderDictionary() {
       <div class="tib-dict-item__def">${d.def}</div>
     </div>
   `).join('');
+
+  initScrollReveal(gridContainer);
 }
 
 function setDictLetter(letter) {
@@ -1498,6 +1607,8 @@ function renderRecipes() {
       </article>
     `;
   }).join('');
+
+  initScrollReveal(gridEl);
 }
 
 function setRecipeCategory(cat) {
@@ -1565,18 +1676,55 @@ function updateHeroScrollState() {
   brandReveal.classList.toggle('is-visible', hasScrolled);
 }
 
+let currentStreetViewIdx = 0;
+
+function renderStreetViewPills() {
+  const container = document.getElementById('streetViewPills');
+  if (!container) return;
+
+  container.innerHTML = STREET_VIEW_SPOTS.map((spot, idx) => `
+    <button class="tib-pill ${currentStreetViewIdx === idx ? 'is-active' : ''}" onclick="setStreetViewSpot(${idx})">
+      <i class="ph ph-map-pin"></i>
+      <span>${spot.name}</span>
+    </button>
+  `).join('');
+}
+
+function setStreetViewSpot(idx) {
+  const spot = STREET_VIEW_SPOTS[idx];
+  const frame = document.getElementById('streetViewFrame');
+  const extBtn = document.getElementById('streetViewExternalBtn');
+  if (!spot || !frame) return;
+
+  currentStreetViewIdx = idx;
+  renderStreetViewPills();
+
+  if (GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY.trim() !== '') {
+    frame.src = `https://www.google.com/maps/embed/v1/streetview?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY.trim())}&location=${spot.lat},${spot.lng}&heading=${spot.heading}&pitch=0&fov=85`;
+  } else {
+    frame.src = `https://maps.google.com/maps?q=&layer=c&cbll=${spot.lat},${spot.lng}&cbp=11,${spot.heading},0,0,0&output=svembed`;
+  }
+
+  if (extBtn) {
+    extBtn.href = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${spot.lat},${spot.lng}&heading=${spot.heading}`;
+  }
+}
+
 /* Inicialización al cargar la página */
 document.addEventListener('DOMContentLoaded', () => {
   renderExplorer();
   renderLugares();
   renderRoutes();
+  renderStreetViewPills();
+  setStreetViewSpot(0);
   renderDictionary();
   renderSongs();
   renderRecipes();
   renderHerbs();
 
-  // Estado inicial y control al hacer scroll en portada
+  // Estado inicial, scroll-reveal y control al hacer scroll en portada
   updateHeroScrollState();
+  initScrollReveal(document.getElementById('tab-inicio'));
   window.addEventListener('scroll', updateHeroScrollState, { passive: true });
 
   // Buscador de portada

@@ -14,7 +14,7 @@
   <!-- Phosphor Icons (misma librería de iconos usada en This is Barcelona) -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 
@@ -51,7 +51,7 @@
         </button>
         <button class="tib-tab-btn" data-tab="situacion" onclick="switchTab('situacion')">
           <span>Situación y Rutas</span>
-          <span class="tib-tab-btn__count">5</span>
+          <span class="tib-tab-btn__count">6</span>
         </button>
         <button class="tib-tab-btn" data-tab="lugares" onclick="switchTab('lugares')">
           <span>Lugares de Interés</span>
@@ -119,10 +119,11 @@
           <div class="tib-drawer__group-title">Situación y Entorno</div>
           <ul class="tib-drawer__sublist">
             <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-general')">Cómo llegar y Calles</button></li>
-            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-terminos')">Términos de La Cabeza</button></li>
-            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-oeste')">Oeste Salmantino y Fauna</button></li>
-            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-ramajeria')">Comarca de La Ramajería</button></li>
-            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-rutas')">Rutas: Olla de los Chorros</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-calles')">2.1. Caminar por las calles (Street View)</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-terminos')">2.2. Términos de La Cabeza</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-oeste')">2.3. Oeste Salmantino y Fauna</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-ramajeria')">2.4. Comarca de La Ramajería</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-rutas')">2.5. Rutas: Olla de los Chorros</button></li>
           </ul>
         </div>
         <div>
@@ -379,10 +380,11 @@
       <div class="tib-subnav">
         <div class="tib-subnav__inner">
           <button class="tib-subnav-btn is-active" data-sub="sit-general" onclick="switchSubTab('situacion', 'sit-general')">Cómo llegar y Calles</button>
-          <button class="tib-subnav-btn" data-sub="sit-terminos" onclick="switchSubTab('situacion', 'sit-terminos')">2.1. Términos de La Cabeza</button>
-          <button class="tib-subnav-btn" data-sub="sit-oeste" onclick="switchSubTab('situacion', 'sit-oeste')">2.2. Oeste Salmantino y Fauna</button>
-          <button class="tib-subnav-btn" data-sub="sit-ramajeria" onclick="switchSubTab('situacion', 'sit-ramajeria')">2.3. La Ramajería</button>
-          <button class="tib-subnav-btn" data-sub="sit-rutas" onclick="switchSubTab('situacion', 'sit-rutas')">2.4. Rutas de Senderismo (3)</button>
+          <button class="tib-subnav-btn" data-sub="sit-calles" onclick="switchSubTab('situacion', 'sit-calles')">2.1. Caminar por las calles</button>
+          <button class="tib-subnav-btn" data-sub="sit-terminos" onclick="switchSubTab('situacion', 'sit-terminos')">2.2. Términos de La Cabeza</button>
+          <button class="tib-subnav-btn" data-sub="sit-oeste" onclick="switchSubTab('situacion', 'sit-oeste')">2.3. Oeste Salmantino y Fauna</button>
+          <button class="tib-subnav-btn" data-sub="sit-ramajeria" onclick="switchSubTab('situacion', 'sit-ramajeria')">2.4. La Ramajería</button>
+          <button class="tib-subnav-btn" data-sub="sit-rutas" onclick="switchSubTab('situacion', 'sit-rutas')">2.5. Rutas de Senderismo (3)</button>
         </div>
       </div>
 
@@ -424,7 +426,39 @@
         </div>
       </div>
 
-      <!-- 2.1. Términos de La Cabeza -->
+      <!-- 2.1. Caminar por las calles (Google Street View) -->
+      <div id="sit-calles" class="tib-subpanel">
+        <div class="tib-container">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+              <span class="tib-hero__kicker" style="background: var(--brand-blue);"><i class="ph-bold ph-person-simple-walk"></i> Google Street View 360°</span>
+              <h2 class="tib-section-heading" style="margin-top: 0.4rem;">Ver calles del pueblo</h2>
+              <p class="tib-prose" style="max-width: 740px; margin-top: 0.5rem;">
+                Recorre virtualmente las calles de <strong>Cabeza de Framontanos</strong> a pie de calle. Selecciona un punto de inicio para moverte en 360° con Google Street View:
+              </p>
+            </div>
+            <a id="streetViewExternalBtn" class="tib-btn tib-btn--dark" href="https://www.google.com/maps/@?api=1&amp;map_action=pano&amp;viewpoint=41.2151,-6.4379" target="_blank" rel="noopener">
+              Abrir Street View a pantalla completa <i class="ph ph-arrow-up-right"></i>
+            </a>
+          </div>
+
+          <div id="streetViewPills" class="tib-filter-pills"></div>
+
+          <div style="background: var(--color-black); padding: 0.5rem; border-radius: 14px; overflow: hidden; box-shadow: 0 14px 36px rgba(0,0,0,0.14);">
+            <iframe
+              id="streetViewFrame"
+              title="Google Street View — Calles de Cabeza de Framontanos"
+              src="https://maps.google.com/maps?q=&amp;layer=c&amp;cbll=41.2151,-6.4379&amp;cbp=11,280,0,0,0&amp;output=svembed"
+              style="width: 100%; height: clamp(420px, 64vh, 680px); border: 0; border-radius: 10px; display: block;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2.2. Términos de La Cabeza -->
       <div id="sit-terminos" class="tib-subpanel">
         <div class="tib-container">
           <h2 class="tib-section-heading" style="margin-bottom: 1rem;">Topónimos — Términos de «La Cabeza»</h2>
@@ -1353,6 +1387,6 @@
     </div>
   </footer>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

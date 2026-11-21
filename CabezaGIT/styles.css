@@ -239,12 +239,18 @@ img {
 .tib-nav-strip__inner {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1.25rem;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   overflow-x: auto;
   scrollbar-width: none;
-  gap: 0.25rem;
+  gap: 0.15rem;
+}
+
+.tib-nav-strip__inner::after {
+  content: '';
+  flex: 0 0 1.25rem;
 }
 
 .tib-nav-strip__inner::-webkit-scrollbar {
@@ -253,12 +259,13 @@ img {
 
 .tib-tab-btn {
   position: relative;
+  flex-shrink: 0;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 0.82rem;
+  font-size: 0.77rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  padding: 0.85rem 1rem;
+  padding: 0.8rem 0.72rem;
   white-space: nowrap;
   transition: color var(--transition-fast), background var(--transition-fast);
   display: inline-flex;
@@ -1705,4 +1712,266 @@ img {
 
 .tib-view-toggle {
   overflow: hidden;
+}
+
+/* ==========================================================================
+   13. CARDS MÁS GRANDES + ANIMACIONES DE NAVEGACIÓN, MENÚS Y SCROLL REVEAL
+   ========================================================================== */
+
+/* Cards más grandes y con acabado editorial moderno */
+.tib-cards-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+  gap: 2.25rem;
+}
+
+.tib-card {
+  padding: 1.15rem 1.15rem 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.035);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease;
+}
+
+.tib-card:hover {
+  transform: translate3d(0, -6px, 0);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.22);
+}
+
+.tib-card__media {
+  aspect-ratio: 16 / 11;
+  margin-bottom: 1.1rem;
+}
+
+.tib-card__title {
+  font-size: 1.42rem;
+  line-height: 1.2;
+  margin-bottom: 0.55rem;
+}
+
+.tib-card__desc {
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.tib-cards-grid.is-list-view .tib-card {
+  padding: 1.25rem;
+  gap: 1.75rem;
+}
+
+.tib-cards-grid.is-list-view .tib-card__media {
+  width: 280px;
+}
+
+.tib-dict-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 1.35rem;
+}
+
+.tib-dict-item {
+  padding: 1.45rem 1.5rem;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.tib-dict-item:hover {
+  transform: translate3d(0, -3px, 0);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+}
+
+.tib-dict-item__term {
+  font-size: 1.2rem;
+  margin-bottom: 0.45rem;
+}
+
+.tib-dict-item__def {
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.tib-interest-card {
+  padding: 1.15rem;
+  gap: 1.15rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.035);
+}
+
+.tib-interest-card__illus {
+  width: 88px;
+  height: 88px;
+  font-size: 2.25rem;
+}
+
+.tib-interest-card__text {
+  font-size: 1.12rem;
+}
+
+/* Animaciones de desplazamiento y desvanecido al cambiar de pestaña / subpestaña */
+.tib-tab-panel.is-active {
+  animation: tibPageSlideIn 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tib-tab-panel.is-leaving {
+  display: block;
+  animation: tibPageSlideOut 0.2s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes tibPageSlideIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes tibPageSlideOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+.tib-subpanel.is-active {
+  animation: tibSubSlideIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tibSubSlideIn {
+  from {
+    opacity: 0;
+    transform: translate3d(18px, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Animación escalonada y desplazamiento suave del Menú Drawer */
+.tib-drawer {
+  transform: translate3d(0, -18px, 0);
+  transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tib-drawer.is-open {
+  transform: translate3d(0, 0, 0);
+}
+
+.tib-drawer__primary-list li,
+.tib-drawer__subgrid > div {
+  opacity: 0;
+  transform: translate3d(-22px, 0, 0);
+  transition:
+    opacity 0.4s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tib-drawer.is-open .tib-drawer__primary-list li,
+.tib-drawer.is-open .tib-drawer__subgrid > div {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(1) { transition-delay: 0.04s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(2) { transition-delay: 0.07s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(3) { transition-delay: 0.10s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(4) { transition-delay: 0.13s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(5) { transition-delay: 0.16s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(6) { transition-delay: 0.19s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(7) { transition-delay: 0.22s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(8) { transition-delay: 0.25s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(9) { transition-delay: 0.28s; }
+.tib-drawer.is-open .tib-drawer__primary-list li:nth-child(10) { transition-delay: 0.31s; }
+
+.tib-drawer.is-open .tib-drawer__subgrid > div:nth-child(1) { transition-delay: 0.12s; }
+.tib-drawer.is-open .tib-drawer__subgrid > div:nth-child(2) { transition-delay: 0.18s; }
+.tib-drawer.is-open .tib-drawer__subgrid > div:nth-child(3) { transition-delay: 0.24s; }
+
+/* Animación suave de entrada y salida de Modales */
+.tib-modal {
+  transition: opacity 0.28s ease;
+}
+
+.tib-modal__dialog {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0) scale(0.96);
+  transition:
+    opacity 0.32s ease,
+    transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tib-modal.is-open .tib-modal__dialog {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Scroll-Reveal: aparición y desplazamiento progresivo al hacer scroll */
+.tib-reveal {
+  opacity: 0;
+  transform: translate3d(0, 38px, 0) scale(0.985);
+  will-change: opacity, transform;
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+.tib-reveal.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Micro-interacción suave en botones de navegación */
+.tib-tab-btn,
+.tib-subnav-btn,
+.tib-pill,
+.tib-btn,
+.tib-icon-btn {
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.tib-tab-btn:active,
+.tib-subnav-btn:active,
+.tib-pill:active,
+.tib-btn:active,
+.tib-icon-btn:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 768px) {
+  .tib-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tib-card {
+    padding: 0.95rem 0.95rem 1.25rem;
+  }
+
+  .tib-card__title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tib-reveal,
+  .tib-tab-panel.is-active,
+  .tib-subpanel.is-active {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }
