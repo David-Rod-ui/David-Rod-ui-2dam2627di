@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turismo Cabeza de Framontanos, Guía Oficial | This is La Cabeza</title>
+  <meta name="description" content="Guía turística y cultural de Cabeza de Framontanos (Salamanca), entre La Ramajería y el Parque Natural de Arribes del Duero. Situación, rutas, historia, cancionero, gastronomía y fiestas.">
+
+  <!-- Google Fonts: Anton (Swiss Poster Display) & Plus Jakarta Sans (Editorial Grotesque) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons (misma librería de iconos usada en This is Barcelona) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       HEADER STICKY + BARRA DE 9 PESTAÑAS (ESTILO THIS IS BARCELONA)
+       ======================================================================== -->
+  <header class="tib-header">
+    <div class="tib-header__top">
+      <div class="tib-header__left-bar">
+        <button class="tib-icon-btn" onclick="document.getElementById('tibDrawer').classList.add('is-open')" title="Abrir menú completo">
+          <i class="ph ph-list"></i>
+          <span>Menú</span>
+        </button>
+        <button class="tib-icon-btn" onclick="switchTab('inicio'); setTimeout(() => document.getElementById('explorerSearchInput')?.focus(), 200);" title="Buscador">
+          <i class="ph ph-magnifying-glass"></i>
+          <span>Buscar</span>
+        </button>
+        <a href="#inicio" class="tib-logo__badge" onclick="switchTab('inicio'); return false;" title="Cabeza de Framontanos · Código Postal 37174">
+          <i class="ph-bold ph-map-pin"></i>
+          <span>C.P. 37174</span>
+        </a>
+      </div>
+
+      <a href="#inicio" id="headerBrandReveal" class="tib-header__brand-reveal" onclick="switchTab('inicio'); return false;">
+        THIS IS LA CABEZA DE FRAMONTANOS
+      </a>
+    </div>
+
+    <!-- Barra de Pestañas con las 9 secciones de la web de Cabeza de Framontanos -->
+    <nav class="tib-nav-strip" aria-label="Navegación principal">
+      <div class="tib-nav-strip__inner">
+        <button class="tib-tab-btn is-active" data-tab="inicio" onclick="switchTab('inicio')">
+          <span>Inicio</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="situacion" onclick="switchTab('situacion')">
+          <span>Situación y Rutas</span>
+          <span class="tib-tab-btn__count">5</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="lugares" onclick="switchTab('lugares')">
+          <span>Lugares de Interés</span>
+          <span class="tib-tab-btn__count">4</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="historia" onclick="switchTab('historia')">
+          <span>Historia y Habla</span>
+          <span class="tib-tab-btn__count">10</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="cancionero" onclick="switchTab('cancionero')">
+          <span>Cancionero</span>
+          <span class="tib-tab-btn__count">3</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="gastronomia" onclick="switchTab('gastronomia')">
+          <span>Gastronomía</span>
+          <span class="tib-tab-btn__count">4</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="fiestas" onclick="switchTab('fiestas')">
+          <span>Fiestas</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="galeria" onclick="switchTab('galeria')">
+          <span>Galería</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="enlaces" onclick="switchTab('enlaces')">
+          <span>Enlaces y Servicios</span>
+        </button>
+        <button class="tib-tab-btn" data-tab="asociacion" onclick="switchTab('asociacion')">
+          <span>Asoc. F.E.M.</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========================================================================
+       MENÚ DESPLEGABLE PANTALLA COMPLETA (BLURRED OVERLAY THIS IS BARCELONA)
+       ======================================================================== -->
+  <aside id="tibDrawer" class="tib-drawer" aria-label="Menú completo del sitio">
+    <div class="tib-drawer__header">
+      <div class="tib-logo">
+        <span>THIS IS LA CABEZA</span>
+        <span class="tib-logo__badge">SALAMANCA</span>
+      </div>
+      <button class="tib-icon-btn" onclick="document.getElementById('tibDrawer').classList.remove('is-open')">
+        <span>Cerrar</span>
+        <i class="ph ph-x" style="font-size: 1.5rem;"></i>
+      </button>
+    </div>
+
+    <div class="tib-drawer__body">
+      <ul class="tib-drawer__primary-list">
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('inicio')">Inicio <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('situacion')">Situación y Rutas <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('lugares')">Lugares de Interés <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('historia')">Historia y Lengua <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('cancionero')">Cancionero Charro <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('gastronomia')">Gastronomía y Vinos <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('fiestas')">Fiestas Patronales <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('galeria')">Galería Fotográfica <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('enlaces')">Enlaces y Consultorio <i class="ph ph-arrow-right"></i></button></li>
+        <li><button class="tib-drawer__primary-link" onclick="switchTab('asociacion')">Asoc. Framontanos en Marcha <i class="ph ph-arrow-right"></i></button></li>
+      </ul>
+
+      <div class="tib-drawer__subgrid">
+        <div>
+          <div class="tib-drawer__group-title">Situación y Entorno</div>
+          <ul class="tib-drawer__sublist">
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-general')">Cómo llegar y Calles</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-terminos')">Términos de La Cabeza</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-oeste')">Oeste Salmantino y Fauna</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-ramajeria')">Comarca de La Ramajería</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('situacion', 'sit-rutas')">Rutas: Olla de los Chorros</button></li>
+          </ul>
+        </div>
+        <div>
+          <div class="tib-drawer__group-title">Historia y Documentos</div>
+          <ul class="tib-drawer__sublist">
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-intro')">Las Tres Dehesas (s. XVIII-XX)</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-vettones')">Los Vettones (s. II a.C.)</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-madoz')">Diccionario Madoz (1842)</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-cis')">Estudio CIS (Devillard, 1993)</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-catastro')">Catastro y Compra de 1919</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-foramontanos')">Los Foramontanos y Anexión 1975</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-gudina')">Cuentos de la Gudina (1977)</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-lengua')">Lengua Ramajera y Leonés</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('historia', 'his-diccionario')">Diccionario Ramajero (A-Z)</button></li>
+          </ul>
+        </div>
+        <div>
+          <div class="tib-drawer__group-title">Cultura y Sabor</div>
+          <ul class="tib-drawer__sublist">
+            <li><button class="tib-drawer__sublink" onclick="switchTab('cancionero', 'can-intro')">Dámaso Ledesma y 7 Secciones</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('cancionero', 'can-alboradas')">Alboradas y Pasacalles</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('cancionero', 'can-repertorio')">Repertorio de Canciones</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('gastronomia', 'gas-recetas')">19 Recetas Charras</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('gastronomia', 'gas-hierbas')">14 Hierbas y Especias</button></li>
+            <li><button class="tib-drawer__sublink" onclick="switchTab('gastronomia', 'gas-vinos')">Vinos D.O. Arribes (14 Bodegas)</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+
+    <!-- ======================================================================
+         PESTAÑA 1: INICIO
+         ====================================================================== -->
+    <section id="tab-inicio" class="tib-tab-panel is-active">
+
+      <!-- 1.1. HERO PANTALLA COMPLETA CON DESVANECIDO AL HACER SCROLL -->
+      <div id="tibHero" class="tib-hero">
+        <div class="tib-hero__bg"></div>
+
+        <div class="tib-hero__top-row">
+          <span class="tib-hero__kinetic-word tib-hero__fade-up" aria-label="THIS">
+            <span>T</span><span>H</span><span>I</span><span>S</span>
+          </span>
+          <span class="tib-hero__giant-letter tib-hero__fade-up" aria-label="IS">IS</span>
+        </div>
+
+        <!-- Bloque editorial que aparece al desvanecerse las letras -->
+        <div class="tib-hero__center-reveal">
+          <div class="tib-hero__editorial-copy">
+            <span class="tib-hero__kicker"><i class="ph-fill ph-compass"></i> Comarca de La Ramajería · Arribes del Duero</span>
+            <h1 class="tib-hero__tagline">
+              Es tierra de granito, cortinas de piedra seca y cascadas escondidas. O La Cabeza, como la llamamos los de aquí.
+            </h1>
+            <div class="tib-hero__meta-pills">
+              <span class="tib-hero__meta-pill">41°12'54"N, 6°26'17"O</span>
+              <span class="tib-hero__meta-pill">Altitud: 792 msnm</span>
+              <span class="tib-hero__meta-pill">Superficie: 102,64 km²</span>
+              <span class="tib-hero__meta-pill">San Juan Bautista · 24 Junio</span>
+              <span class="tib-hero__meta-pill">C.P. 37174 · Salamanca</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tib-hero__bottom-row">
+          <span class="tib-hero__kinetic-word tib-hero__fade-down" aria-label="CABEZA">
+            <span>C</span><span>A</span><span>B</span><span>E</span><span>Z</span><span>A</span>
+          </span>
+
+          <div class="tib-hero__scroll-hint">
+            <span>Baja para descubrir</span>
+            <i class="ph ph-arrow-down"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1.2. BANDA SELECTORA DE INTERESES (#f2f2ed WARM WHITE) -->
+      <div class="tib-interests">
+        <div class="tib-container">
+          <h2 class="tib-section-heading">Todos tenemos un camino en La Cabeza. Elige el tuyo:</h2>
+
+          <div class="tib-interests__grid" role="tablist" aria-label="Intereses">
+            <button class="tib-interest-card" onclick="switchTab('situacion', 'sit-rutas')">
+              <div class="tib-interest-card__illus">
+                <i class="ph-duotone ph-mountains" style="color: var(--brand-green);"></i>
+                <span class="tib-interest-card__dot" style="background: var(--brand-green);"></span>
+              </div>
+              <div class="tib-interest-card__text">
+                Busco cascadas y
+                <strong>senderos en Las Arribes</strong>
+              </div>
+            </button>
+
+            <button class="tib-interest-card" onclick="switchTab('historia', 'his-catastro')">
+              <div class="tib-interest-card__illus">
+                <i class="ph-duotone ph-scroll" style="color: var(--brand-blue);"></i>
+                <span class="tib-interest-card__dot" style="background: var(--brand-blue);"></span>
+              </div>
+              <div class="tib-interest-card__text">
+                Quiero conocer las
+                <strong>raíces y el habla ramajera</strong>
+              </div>
+            </button>
+
+            <button class="tib-interest-card" onclick="switchTab('gastronomia', 'gas-recetas')">
+              <div class="tib-interest-card__illus">
+                <i class="ph-duotone ph-wine" style="color: var(--brand-red);"></i>
+                <span class="tib-interest-card__dot" style="background: var(--brand-red);"></span>
+              </div>
+              <div class="tib-interest-card__text">
+                Vengo a saborear
+                <strong>hornazo, asados y D.O. Arribes</strong>
+              </div>
+            </button>
+
+            <button class="tib-interest-card" onclick="switchTab('fiestas')">
+              <div class="tib-interest-card__illus">
+                <i class="ph-duotone ph-fire" style="color: var(--brand-orange);"></i>
+                <span class="tib-interest-card__dot" style="background: var(--brand-orange);"></span>
+              </div>
+              <div class="tib-interest-card__text">
+                Quiero vivir las
+                <strong>hogueras de San Juan y verbenas</strong>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1.3. EXPLORADOR Y AGENDA DE CONTENIDOS (GRID / LISTA + BUSCADOR + PILLS) -->
+      <div class="tib-section">
+        <div class="tib-container">
+          <div class="tib-explorer__header">
+            <h2 class="tib-section-heading">¿Qué hay y qué descubrir en Cabeza de Framontanos?</h2>
+            <div class="tib-view-toggle" role="group" aria-label="Cambiar vista">
+              <button id="btnViewGrid" class="tib-view-toggle__btn is-active" onclick="setExplorerView('grid')">
+                <i class="ph ph-squares-four"></i> Grid
+              </button>
+              <button id="btnViewList" class="tib-view-toggle__btn" onclick="setExplorerView('list')">
+                <i class="ph ph-list-bullets"></i> Lista
+              </button>
+            </div>
+          </div>
+
+          <div class="tib-search-bar">
+            <input id="explorerSearchInput" type="search" placeholder="Buscar rutas, recetas, historia, fiestas, vocabulario ramajero...">
+            <i class="ph ph-magnifying-glass"></i>
+          </div>
+
+          <div id="explorerPills" class="tib-filter-pills"></div>
+          <div id="explorerGrid" class="tib-cards-grid"></div>
+        </div>
+      </div>
+
+      <!-- 1.4. BANNER POSTER CINÉTICO NEGRO (#000) -->
+      <div class="tib-kinetic-poster">
+        <div class="tib-container">
+          <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--brand-yellow); margin-bottom: 1.5rem;">
+            IMPRESCINDIBLES DEL PATRIMONIO FRAMONTANO
+          </div>
+
+          <div class="tib-kinetic-poster__item" onclick="switchTab('situacion', 'sit-rutas')">
+            <span class="tib-kinetic-poster__side">5,5 KM · ARROYO IRUELOS</span>
+            <span class="tib-kinetic-poster__title">OLLA DE LOS CHORROS</span>
+            <span class="tib-kinetic-poster__side tib-kinetic-poster__side--right">SENDERISMO ↗</span>
+          </div>
+
+          <div class="tib-kinetic-poster__item" onclick="switchTab('fiestas')">
+            <span class="tib-kinetic-poster__side">24 DE JUNIO · HOGUERA</span>
+            <span class="tib-kinetic-poster__title">SAN JUAN BAUTISTA</span>
+            <span class="tib-kinetic-poster__side tib-kinetic-poster__side--right">FIESTAS PATRONALES ↗</span>
+          </div>
+
+          <div class="tib-kinetic-poster__item" onclick="switchTab('historia', 'his-catastro')">
+            <span class="tib-kinetic-poster__side">20 YUGADAS · PROINDIVISO</span>
+            <span class="tib-kinetic-poster__title">EL CONCEJO DE 1919</span>
+            <span class="tib-kinetic-poster__side tib-kinetic-poster__side--right">HISTORIA VIVA ↗</span>
+          </div>
+
+          <div class="tib-kinetic-poster__item" onclick="switchTab('gastronomia', 'gas-vinos')">
+            <span class="tib-kinetic-poster__side">JUAN GARCÍA · BRUÑAL</span>
+            <span class="tib-kinetic-poster__title">VINOS D.O. ARRIBES</span>
+            <span class="tib-kinetic-poster__side tib-kinetic-poster__side--right">14 BODEGAS ↗</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1.5. SECCIÓN EDITORIAL DIVIDIDA ("Una arquitectura de granito y cortinas") -->
+      <div class="tib-section">
+        <div class="tib-container">
+          <div class="tib-editorial-split">
+            <div>
+              <span class="tib-hero__kicker" style="background: var(--color-black);">Identidad de La Ramajería</span>
+              <h2 class="tib-section-heading" style="margin-top: 0.5rem;">Un pueblo nacido de comunidades libres y muros de piedra seca</h2>
+              <p class="tib-editorial-split__lead">
+                A 80 kilómetros de Salamanca y a 792 metros de altitud, <strong>Cabeza de Framontanos</strong> («Cabeza de Foramentanos» en los antiguos libros del Obispado) conserva el paisaje milenario de las <em>cortinas</em> de granito, las dehesas de roble y el legado de los colonos que en 1919 compraron su propio término para administrarlo en común.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                <button class="tib-btn tib-btn--dark" onclick="switchTab('historia')">
+                  Explorar toda la Historia <i class="ph ph-arrow-right"></i>
+                </button>
+                <a class="tib-btn" href="https://www.facebook.com/groups/94136215607" target="_blank" rel="noopener">
+                  Comunidad en Facebook <i class="ph ph-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <div style="background: var(--color-warm-white); padding: 1.5rem; border: 1px solid var(--grey-200);">
+              <img src="https://static.wixstatic.com/media/d7d904_2e4c6529a662f83242160ff45001969e.jpg/v1/fill/w_980,h_180,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_2e4c6529a662f83242160ff45001969e.jpg" alt="Entrada y frontón de Cabeza de Framontanos" style="width: 100%; height: 220px; object-fit: cover; margin-bottom: 1.25rem;">
+              <div class="tib-stats-bar" style="margin: 0;">
+                <div class="tib-stat-box">
+                  <div class="tib-stat-box__label">Coordenadas</div>
+                  <div class="tib-stat-box__value" style="font-size: 1rem;">41°12'54"N, 6°26'17"O</div>
+                </div>
+                <div class="tib-stat-box">
+                  <div class="tib-stat-box__label">Altitud / Superficie</div>
+                  <div class="tib-stat-box__value" style="font-size: 1rem;">792 msnm · 102,64 km²</div>
+                </div>
+                <div class="tib-stat-box">
+                  <div class="tib-stat-box__label">Municipio / Comarca</div>
+                  <div class="tib-stat-box__value" style="font-size: 1rem;">Villarino · La Ramajería</div>
+                </div>
+                <div class="tib-stat-box">
+                  <div class="tib-stat-box__label">Partido Judicial</div>
+                  <div class="tib-stat-box__value" style="font-size: 1rem;">Vitigudino (Salamanca)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 2: SITUACIÓN Y RUTAS (CON SUS 4 SUBPÁGINAS)
+         ====================================================================== -->
+    <section id="tab-situacion" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Pestaña 02 · Geografía, Territorio y Senderismo</div>
+          <h1 class="tib-page-banner__title">SITUACIÓN Y RUTAS</h1>
+          <p class="tib-page-banner__subtitle">
+            Entre la comarca de La Ramajería y el Parque Natural de Arribes del Duero. Cómo llegar, callejero, mapa de topónimos, fauna del Oeste Salmantino y rutas de senderismo.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sub-navegación de Situación -->
+      <div class="tib-subnav">
+        <div class="tib-subnav__inner">
+          <button class="tib-subnav-btn is-active" data-sub="sit-general" onclick="switchSubTab('situacion', 'sit-general')">Cómo llegar y Calles</button>
+          <button class="tib-subnav-btn" data-sub="sit-terminos" onclick="switchSubTab('situacion', 'sit-terminos')">2.1. Términos de La Cabeza</button>
+          <button class="tib-subnav-btn" data-sub="sit-oeste" onclick="switchSubTab('situacion', 'sit-oeste')">2.2. Oeste Salmantino y Fauna</button>
+          <button class="tib-subnav-btn" data-sub="sit-ramajeria" onclick="switchSubTab('situacion', 'sit-ramajeria')">2.3. La Ramajería</button>
+          <button class="tib-subnav-btn" data-sub="sit-rutas" onclick="switchSubTab('situacion', 'sit-rutas')">2.4. Rutas de Senderismo (3)</button>
+        </div>
+      </div>
+
+      <!-- 2.0. Situación General -->
+      <div id="sit-general" class="tib-subpanel is-active">
+        <div class="tib-container">
+          <div class="tib-editorial-split">
+            <div class="tib-prose">
+              <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Entre la «Ramajería» y los «Arribes de Duero»</h2>
+              <p>
+                <strong>«La Cabeza»</strong> dista unos <strong>80 kilómetros de Salamanca</strong> y pertenece a la comarca de <strong>La Ramajería</strong>, que junto a <strong>Las Arribes del Duero</strong> (declarado Parque Natural en el año 2001), el Campo de Vitigudino, El Abadengo y parte de las Tierras de Ledesma, conforman el <strong>Oeste Salmantino</strong>.
+              </p>
+              <p>
+                El pueblo está situado entre los términos de <strong>Trabanca, Villarino de los Aires, Pereña de la Ribera, La Vídola, La Peña y La Zarza de Don Beltrán</strong>.
+              </p>
+              <h3>Cómo llegar y accesos al casco urbano</h3>
+              <p>
+                Se llega siguiendo la carretera local <strong>DSA-561</strong>, que une Trabanca y Pereña de la Ribera. A la entrada aparece el <strong>Frontón del barrio de «El Egido»</strong>; torciendo a la derecha se accede directamente al centro por la calle de <strong>«El Toral»</strong>. Otro acceso histórico entra por la calle <strong>«La Fuente»</strong> (la vieja carretera de Villarino).
+              </p>
+              <p>
+                Desde <strong>1975</strong> es una entidad local / pedanía integrada en el municipio de <strong>Villarino de los Aires</strong>. Sus fiestas patronales se celebran el <strong>24 de junio (San Juan Bautista)</strong>, festejándose también el día de <strong>Nuestra Señora del Rosario el 15 de agosto</strong> y la Fiesta Grande de la Inmaculada el 6 de diciembre.
+              </p>
+            </div>
+
+            <div>
+              <div style="background: var(--color-warm-white); padding: 1.5rem; border: 1px solid var(--grey-200);">
+                <img src="https://static.wixstatic.com/media/d7d904_193c40e016ca438c85f27fc86e8d37f5.png/v1/fill/w_202,h_147,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_193c40e016ca438c85f27fc86e8d37f5.png" alt="Sello histórico del Ayuntamiento de Cabeza de Framontanos" style="height: 110px; margin: 0 auto 1.25rem;">
+                <iframe
+                  title="Mapa de Cabeza de Framontanos"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-6.465%2C41.195%2C-6.410%2C41.235&amp;layer=mapnik&amp;marker=41.215%2C-6.438"
+                  style="width: 100%; height: 320px; border: 1px solid var(--grey-300);">
+                </iframe>
+                <p style="font-size: 0.82rem; color: var(--grey-600); margin-top: 0.65rem;">
+                  Ubicación: 41°12'54"N, 6°26'17"O · Carretera DSA-561 (Trabanca – Pereña de la Ribera).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2.1. Términos de La Cabeza -->
+      <div id="sit-terminos" class="tib-subpanel">
+        <div class="tib-container">
+          <h2 class="tib-section-heading" style="margin-bottom: 1rem;">Topónimos — Términos de «La Cabeza»</h2>
+          <p class="tib-prose" style="max-width: 820px; margin-bottom: 1.75rem;">
+            Mapa parcelario y toponímico tradicional de los parajes, valles, cortinas y berrocales del término de Cabeza de Framontanos (Las Llaneras, Los Berrocalitos, Peña del Pozo, Mata del Moriano, Cabeza de Iruelos, El Egido, etc.).
+          </p>
+          <div style="background: var(--color-warm-white); padding: 1.5rem; border: 1px solid var(--grey-200); text-align: center;">
+            <img src="https://static.wixstatic.com/media/d7d904_81f4b34372c14ab995c839dffa814655.jpg/v1/fill/w_941,h_896,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_81f4b34372c14ab995c839dffa814655.jpg" alt="Mapa de Topónimos y Términos de La Cabeza" style="margin: 0 auto; max-height: 820px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2.2. Oeste Salmantino -->
+      <div id="sit-oeste" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">El Oeste Salmantino: Geología, Clima y Fauna</h2>
+          <p>
+            El <strong>Oeste Salmantino</strong> agrupa cinco comarcas históricas: <strong>La Ramajería, Tierra de Vitigudino, Las Arribes, El Abadengo y parte de la Tierra de Ledesma</strong>. Comprende <strong>55 municipios y 2.328 km²</strong> (el 19 % de la provincia de Salamanca), delimitados al norte y oeste por los profundos cañones de los ríos Tormes y Duero en la frontera con Portugal («la Raya Húmeda»).
+          </p>
+          <div class="tib-stats-bar">
+            <div class="tib-stat-box"><div class="tib-stat-box__label">Comarcas</div><div class="tib-stat-box__value">5 Históricas</div></div>
+            <div class="tib-stat-box"><div class="tib-stat-box__label">Municipios</div><div class="tib-stat-box__value">55 Pueblos</div></div>
+            <div class="tib-stat-box"><div class="tib-stat-box__label">Extensión</div><div class="tib-stat-box__value">2.328 km²</div></div>
+            <div class="tib-stat-box"><div class="tib-stat-box__label">Relieve</div><div class="tib-stat-box__value">Penillanura y Cañón</div></div>
+          </div>
+
+          <h3>Geología: Penillanura, Cachones y Caozos</h3>
+          <p>
+            El territorio presenta un contraste espectacular entre la <strong>penillanura granítica</strong> (700–800 m de altitud, poblada de berrocales, encinas y robles rebollos) y los <strong>profundos cañones fluviales de Las Arribes</strong>, donde los arroyos salvan desniveles de cientos de metros formando cascadas llamadas <em>cachones</em> y pozas labradas en la roca viva llamadas <em>caozos</em>.
+          </p>
+
+          <h3>Biodiversidad y Fauna del Entorno</h3>
+          <div class="tib-dict-grid" style="margin-top: 1rem;">
+            <div class="tib-dict-item" style="border-left-color: var(--brand-red);">
+              <div class="tib-dict-item__term">Aves Rapaces y Rupícolas</div>
+              <div class="tib-dict-item__def">Cigüeña negra, buitre leonado, buitre negro, alimoche (llamado localmente <em>«blanquillo»</em>), águila real, águila perdicera, halcón peregrino, águila calzada, águila culebrera y búho real.</div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-orange);">
+              <div class="tib-dict-item__term">Mamíferos</div>
+              <div class="tib-dict-item__def">Zorro, jabalí, garduña, gato montés, jineta, nutria en las riberas y presencia histórica y esporádica del lobo ibérico.</div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-teal);">
+              <div class="tib-dict-item__term">Peces, Anfibios y Reptiles</div>
+              <div class="tib-dict-item__def">Barbo, carpa, boga, bermejuela y colmilleja en los cursos de agua; tritón jaspeado e ibérico, sapo corredor, sapillo pintojo, eslizón, culebra de herradura, lagarto verdinegro y lagartija colirroja.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2.3. La Ramajería -->
+      <div id="sit-ramajeria" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Comarca de La Ramajería</h2>
+          <p>
+            Con una superficie de <strong>484,16 km²</strong>, La Ramajería limita con La Ribera (Las Arribes), la Tierra de Ledesma, la Tierra de Vitigudino y El Abadengo. Según el estudio clásico de <strong>Antonio Llorente Maldonado</strong> (<em>Las comarcas históricas y actuales de la provincia de Salamanca</em>, 1976), la integran <strong>17 municipios</strong> más las pedanías históricas de <strong>Cabeza de Framontanos</strong> y <strong>La Zarza de Don Beltrán</strong> (hoy en el municipio de Villarino de los Aires):
+          </p>
+          <div class="tib-doc-quote">
+            <strong>Pueblos de La Ramajería:</strong> Ahigal de Villarino, Barceo, Barruecopardo, Cabeza del Caballo, Cerezal de Peñahorcada, El Milano, Encinasola de los Comendadores, Guadramiro, La Peña, La Vídola, La Zarza de Pumareda, Sanchón de la Ribera, Valderrodrigo, Valsalabroso, Villar de Samaniego y Villasbuenas, junto a Cabeza de Framontanos y La Zarza de Don Beltrán.
+          </div>
+          <h3>Arquitectura tradicional de granito y paisaje de «Cortinas»</h3>
+          <p>
+            La seña de identidad visual de La Ramajería son sus <strong>casonas de sillería y mampostería de granito</strong> con rejería artesanal de hierro forjado, y el entramado de <strong>«cortinas»</strong>: parcelas cercadas por muros de piedra seca levantados sin argamasa que rodean los núcleos urbanos, protegen los cultivos y sirven de refugio a una riquísima flora y fauna.
+          </p>
+        </div>
+      </div>
+
+      <!-- 2.4. Rutas de Senderismo -->
+      <div id="sit-rutas" class="tib-subpanel">
+        <div class="tib-container">
+          <h2 class="tib-section-heading" style="margin-bottom: 0.75rem;">Rutas de Senderismo desde La Cabeza y Entorno</h2>
+          <p class="tib-prose" style="margin-bottom: 2rem;">
+            Tres itinerarios detallados con coordenadas, desniveles, tiempos y mapas SIGPAC para descubrir los saltos de agua y miradores graníticos de la zona.
+          </p>
+          <div id="routesContainer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA: LUGARES DE INTERÉS DEL PUEBLO (ESTRUCTURA TIPO GASTRONOMÍA)
+         ====================================================================== -->
+    <section id="tab-lugares" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Rincones Imprescindibles de Cabeza de Framontanos</div>
+          <h1 class="tib-page-banner__title">LUGARES DE INTERÉS</h1>
+          <p class="tib-page-banner__subtitle">
+            Los espacios que dan vida al pueblo: del antiguo Frontón y el Bar Toñi hasta la Resbalina y la Pista de Pádel. Haz clic en cada lugar para ver toda la información.
+          </p>
+        </div>
+      </div>
+
+      <div class="tib-section">
+        <div class="tib-container">
+          <h2 class="tib-section-heading" style="margin-bottom: 0.65rem;">Explora los rincones de La Cabeza</h2>
+          <p class="tib-prose" style="margin-bottom: 1.5rem;">
+            Filtra por categoría o haz clic en cualquier tarjeta para ampliar la historia, los detalles y cómo disfrutar de cada lugar:
+          </p>
+          <div id="lugaresPills" class="tib-filter-pills"></div>
+          <div id="lugaresGrid" class="tib-cards-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 3: HISTORIA Y LENGUA RAMAJERA (CON SUS 10 SUBSECCIONES)
+         ====================================================================== -->
+    <section id="tab-historia" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Pestaña 03 · Memoria, Arqueología y Lengua</div>
+          <h1 class="tib-page-banner__title">HISTORIA Y HABLA RAMAJERA</h1>
+          <p class="tib-page-banner__subtitle">
+            Desde los castros vettones del siglo II a.C. y la repoblación foramontana hasta el Diccionario de Madoz (1842), la compra de la dehesa por los vecinos en 1919 y el Diccionario Ramajero.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sub-navegación de Historia -->
+      <div class="tib-subnav">
+        <div class="tib-subnav__inner">
+          <button class="tib-subnav-btn is-active" data-sub="his-intro" onclick="switchSubTab('historia', 'his-intro')">Introducción (s. XVIII-XX)</button>
+          <button class="tib-subnav-btn" data-sub="his-vettones" onclick="switchSubTab('historia', 'his-vettones')">3.1. Los Vettones (s. II a.C.)</button>
+          <button class="tib-subnav-btn" data-sub="his-madoz" onclick="switchSubTab('historia', 'his-madoz')">3.2. Madoz (1842)</button>
+          <button class="tib-subnav-btn" data-sub="his-cis" onclick="switchSubTab('historia', 'his-cis')">3.3. Estudio CIS (1993)</button>
+          <button class="tib-subnav-btn" data-sub="his-catastro" onclick="switchSubTab('historia', 'his-catastro')">3.4. Catastro y Compra (1919)</button>
+          <button class="tib-subnav-btn" data-sub="his-foramontanos" onclick="switchSubTab('historia', 'his-foramontanos')">3.5 y 3.6. Foramontanos y BOE 1975</button>
+          <button class="tib-subnav-btn" data-sub="his-gudina" onclick="switchSubTab('historia', 'his-gudina')">3.7. Cuentos de la Gudina</button>
+          <button class="tib-subnav-btn" data-sub="his-lengua" onclick="switchSubTab('historia', 'his-lengua')">3.8 y 3.9. Lengua Ramajera y Leonés</button>
+          <button class="tib-subnav-btn" data-sub="his-diccionario" onclick="switchSubTab('historia', 'his-diccionario')">3.10. Diccionario Ramajero (A-Z)</button>
+        </div>
+      </div>
+
+      <!-- 3.0. Introducción Historia -->
+      <div id="his-intro" class="tib-subpanel is-active">
+        <div class="tib-container">
+          <div class="tib-editorial-split">
+            <div class="tib-prose">
+              <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Historia de La Cabeza: De «Cabeza de Foramentanos» a las Tres Dehesas</h2>
+              <p>
+                La historia de <strong>La Cabeza de Framontanos</strong> y de Trabanca se forjó probablemente a partir de comunidades libres que, al margen de los ejes privilegiados por la política de repoblación y al abrigo de la codicia de los poderosos, se instalaron en los vastos espacios dejados sin roturar, concentrando el hábitat cerca de los manantiales de agua.
+              </p>
+              <p>
+                Tal vez La Cabeza de Framontanos hizo el papel de epicentro (<em>«cabeça»</em>) de una pequeña colonia de migrantes; desde un punto de vista etimológico, su nombre indica que sus habitantes provenían del norte peninsular, de <strong>«más allá de los montes»</strong>. Así figura en el <em>Libro de lugares y aldeas del Obispado de Salamanca</em>: <strong>«Cabeza de Foramentanos»</strong>.
+              </p>
+              <p>
+                El destino de <strong>«las tres dehesas»</strong> (La Cabeza de Framontanos, Trabanca y La Zarza de Don Beltrán) fue paralelo desde comienzos del siglo XVIII hasta principios del siglo XX: formaban parte de patrimonios nobiliarios cuyos titulares residían lejos (especialmente en Andalucía). Finalmente, en <strong>1919 en La Cabeza de Framontanos</strong> (y en 1941 en Trabanca), propiedad y posesión volvieron a coincidir en las mismas manos gracias a la <strong>compra de la dehesa por los propios vecinos arrendatarios</strong>.
+              </p>
+              <h4>Bibliografía de referencia</h4>
+              <ul>
+                <li><strong>Pascual Madoz (1842/1846)</strong>: <em>Diccionario Geográfico-Estadístico-Histórico de España</em>.</li>
+                <li><strong>Marie José Devillard (1993)</strong>: <em>De lo mío a lo de nadie. Individualismo, colectivismo agrario y vida cotidiana</em> (CIS, Cuaderno 130).</li>
+                <li><strong>Manuel Moreno Blanco (1977)</strong>: <em>La Gudina</em> y <em>Cuentos de la Gudina</em>.</li>
+                <li><strong>Argimiro Cuadrado (1995)</strong>: <em>El Lenguaje Popular Ramajero: Vocabulario de Palabras y Giros</em>.</li>
+                <li><strong>Antonio Llorente Maldonado (1976)</strong>: <em>Las comarcas históricas y actuales de la provincia de Salamanca</em>.</li>
+              </ul>
+            </div>
+
+            <div style="display: grid; gap: 1.25rem;">
+              <div style="background: var(--color-warm-white); padding: 1.25rem; border: 1px solid var(--grey-200);">
+                <img src="https://static.wixstatic.com/media/d7d904_6b83eecee8d5178334ffea3935d2fa66.jpg/v1/fill/w_600,h_550,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_6b83eecee8d5178334ffea3935d2fa66.jpg" alt="Mapa histórico de la Roda de Villarino y Cabeza de Framontanos" style="width: 100%; max-height: 320px; object-fit: contain;">
+                <p style="font-size: 0.8rem; color: var(--grey-600); margin-top: 0.5rem;">Mapa histórico de la Roda (Villarino, Pereña, Trabanca, Cabeza de Framontanos y Zarza de Don Beltrán).</p>
+              </div>
+              <div style="background: var(--color-warm-white); padding: 1.25rem; border: 1px solid var(--grey-200);">
+                <img src="https://static.wixstatic.com/media/d7d904_7cdacee071a24e67a7636d52985c7217.jpg/v1/fill/w_400,h_290,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_7cdacee071a24e67a7636d52985c7217.jpg" alt="Documento del 10 de octubre de 1876 con sello de Cabeza de Framontanos" style="width: 100%; max-height: 220px; object-fit: contain;">
+                <p style="font-size: 0.8rem; color: var(--grey-600); margin-top: 0.5rem;">Documento oficial fechado el 10 de octubre de 1876 con el sello municipal de Cabeza de Framontanos.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.1. Los Vettones -->
+      <div id="his-vettones" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">«Los Vettones» (Siglo II a.C.): Cultura, Lengua y Castros</h2>
+          <p>
+            Síntesis arqueológica basada en las obras de <strong>Diego Salvador Conejo</strong> (<em>Vettones</em>, 2024) y <strong>Jesús R. Álvarez-Sanchís</strong> (<em>Arqueología Vettona</em>, 2008). Los vettones fueron el pueblo prerromano de raíz protocelta y celtibérica que habitó entre los ríos Duero y Tajo, famosos por sus <strong>verracos de granito</strong> y sus poblados fortificados o <strong>castros (oppida)</strong> situados sobre meandros encajados de los ríos.
+          </p>
+          <div class="tib-dict-grid" style="margin: 1.5rem 0;">
+            <div class="tib-dict-item">
+              <div class="tib-dict-item__term">5.1. Castro de «El Castillo» (Saldeana)</div>
+              <div class="tib-dict-item__def">Situado sobre un espectacular meandro encajado del río Huebra (a 20 min a pie desde Saldeana). Conserva muralla ciclópea, campo de piedras hincadas (<em>meños</em> de más de 1 m de altura) y estelas romanas reutilizadas.</div>
+            </div>
+            <div class="tib-dict-item">
+              <div class="tib-dict-item__term">5.2. Castro de «Las Merchanas» (Lumbrales)</div>
+              <div class="tib-dict-item__def">En la DSA-579 (km 4) sobre el río Camaces. Excavado en 1952–55 por Juan Maluquer de Motes. Conserva murallas elipsoidales de 2–3 m de alto y hasta 8 m de espesor, puertas en embudo, verraco de granito, puerta romana y necrópolis tardorromana.</div>
+            </div>
+            <div class="tib-dict-item">
+              <div class="tib-dict-item__term">5.3. Castro de «Yecla la Vieja» (Yecla de Yeltes)</div>
+              <div class="tib-dict-item__def">Recinto amurallado de 4,5 hectáreas con 4 puertas principales y poterna hacia el manantial, grabados rupestres de caballos y jinetes en los sillares, campo de piedras hincadas y ocupación continuada hasta la época visigoda y la repoblación de Fernando II en el s. XII.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.2. Diccionario de Pascual Madoz (1842) -->
+      <div id="his-madoz" class="tib-subpanel">
+        <div class="tib-container">
+          <div class="tib-editorial-split">
+            <div class="tib-prose">
+              <h2 class="tib-section-heading" style="margin-bottom: 1rem;">Diccionario Geográfico-Estadístico-Histórico (Pascual Madoz, 1842)</h2>
+              <p>Transcripción íntegra de la entrada histórica publicada en el Tomo V (Madrid, 1846, con datos de 1842):</p>
+              <div class="tib-doc-quote">
+                <p>
+                  <strong>«CABEZA DE FRAMONTANOS:</strong> Localidad con ayuntamiento, al que se halla agregado el de Zarza de Don Beltrán. En la provincia y diócesis de Salamanca (13 leguas), partido judicial de Ledesma (7), audiencia territorial y capitanía general de Valladolid (30); Situado a dos leguas de Portugal, con clima suave, combatido por los vientos Norte y Oeste, y más propenso a dolores de costado y tercianas que a otras enfermedades.
+                </p>
+                <p>
+                  Tiene <strong>120 casas</strong>, escuela de primeras letras dotada con 20 fanegas de centeno y concurrida por 40 niños. <strong>Iglesia parroquial (San Juan Bautista)</strong>, servida por un cura de término, sacristán y dos monacillos; una capilla dedicada a <strong>Ntra. Sra. del Rosario</strong>, propia de la hermandad. Una fuente que acostumbra secarse y varias en el término, todas de buenas aguas.
+                </p>
+                <p>
+                  Confina el término con los de Trabanca, Pereña, Zarza de Don Beltrán y Almendra. El terreno es de inferior calidad: hay algún monte de roble, y lo atraviesa el arroyo llamado Grosin; se cultivan <strong>37 ½ yugadas de tierra</strong>, y todo él pertenece al Sr. marqués de Cardeñosa y conde de Luque. Los caminos se hallan casi intransitables; la correspondencia se trae y se lleva a Vitigudino.
+                </p>
+                <p style="margin-bottom: 0;">
+                  <strong>Produce:</strong> centeno, cebada y patatas; hay cría de ganado lanar, cabrío y cerdoso, y caza de conejos y perdices. <strong>Industria:</strong> la agricultura, ganadería y cuatro molinos harineros en la ribera de Pereña. <strong>Población:</strong> 116 vecinos, <strong>475 almas</strong>. Capital Territorial de Productos: 1.145.300 reales. Imponible: 57.265. Valor de puestos públicos: 2.400.»
+                </p>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <img src="https://static.wixstatic.com/media/d7d904_4c4a57b1eed84ac485f040d434b993e2~mv2.jpg/v1/fill/w_231,h_318,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Pascual%20MADOZ%201869.jpg" alt="Retrato de Pascual Madoz" style="margin: 0 auto 1rem; border: 1px solid var(--grey-300);">
+              <p style="font-size: 0.85rem; color: var(--grey-600);">Pascual Madoz Ibáñez (1806–1870), autor del Diccionario Geográfico-Estadístico-Histórico.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.3. Estudio CIS -->
+      <div id="his-cis" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Centro de Investigaciones Sociológicas (CIS): «De lo mío a lo de nadie»</h2>
+          <p>
+            La antropóloga y socióloga <strong>Marie José Devillard</strong> dedicó el Cuaderno Monográfico nº 130 del CIS (1993), titulado <em>«De lo mío a lo de nadie. Individualismo, colectivismo agrario y vida cotidiana»</em>, al análisis profundo de la organización social, familiar y comunal de <strong>La Cabeza de Framontanos y Trabanca</strong>.
+          </p>
+          <p>
+            El estudio documenta cómo ambos núcleos conservaron hasta finales del siglo XX un régimen ejemplar que combinaba la explotación privada de las tierras labrantías y <em>cortinas</em> con la titularidad colectiva en <strong>proindiviso</strong> de los valles, pastos y montes de roble, articulado mediante cuotas expresadas en <strong>yugadas, sesmos y céntimos</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3.4. Catastro de la Ensenada y Compra de 1919 -->
+      <div id="his-catastro" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Catastro de la Ensenada, Compra de 1919 y «El Concejo» (1919–1964)</h2>
+          <p>
+            La evolución de la propiedad de la tierra en Cabeza de Framontanos (dividida históricamente en <strong>20 yugadas</strong>, que unidas a las 17,5 yugadas de Trabanca sumaban las 37,5 yugadas registradas por Madoz) atravesó cinco grandes etapas:
+          </p>
+          <div class="tib-dict-grid" style="margin: 1.5rem 0;">
+            <div class="tib-dict-item">
+              <div class="tib-dict-item__term">1. De Señorío a Proindiviso Nobiliario</div>
+              <div class="tib-dict-item__def">A comienzos del s. XIX pertenecía a la casa de Don Beltrán; en 1860 pasó en herencia a Dña. Rafaela de Mioño (Marquesa de Cilloruelo), en 1905 en usufructo a D. Ignacio Fernández de Hiniestrosa y en 1909 a D. Mariano Fernández de Hiniestrosa y Mioño de Arteaga, <strong>Duque de Santo Mauro</strong>.</div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-red);">
+              <div class="tib-dict-item__term">2. Año 1919: Los Colonos Compran el Pueblo</div>
+              <div class="tib-dict-item__def">En <strong>1919</strong>, los herederos vendieron la dehesa de Cabeza de Framontanos a sus antiguos arrendatarios (los propios vecinos). Las tierras de labor y cortinas pasaron a propiedad particular y los valles y pastos quedaron en régimen comunal de <strong>proindiviso</strong>.</div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-green);">
+              <div class="tib-dict-item__term">3. La Junta Administradora («El Concejo», 1919–1964)</div>
+              <div class="tib-dict-item__def">Integrada por <strong>6 propietarios elegidos democráticamente cada 3 años</strong>. Administraba los céntimos de cada vecino, el recuento de ganado (<em>retajar</em>), el reparto de suertes de leña, el deslinde de terrenos, la imposición de multas por daños en el valle y la protección de los pastos.</div>
+            </div>
+          </div>
+          <p>
+            <a class="tib-btn tib-btn--dark" href="http://pares.mcu.es/Catastro/servlets/ServletController?accion=4&opcionV=3&orden=0&loc=9435&pageNum=1" target="_blank" rel="noopener">
+              Consultar expediente original en PARES (Catastro de la Ensenada) <i class="ph ph-arrow-up-right"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- 3.5 y 3.6. Los Foramontanos y Anexión a Villarino (1975) -->
+      <div id="his-foramontanos" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">El Fenómeno Foramontano y la Incorporación a Villarino (1974/1975)</h2>
+          <h3>3.5. Los Foramontanos (Cuadernos de Campo Nº 10 · Florentino García Pérez)</h3>
+          <p>
+            El término <strong>«Foramontano» / «Framontano»</strong> procede del latín <em>foras monte</em> («fuera de la montaña» o «más allá de los montes»). Designa a las gentes cántabras, astures y norteñas que a partir de los siglos VIII al X cruzaron la Cordillera Cantábrica mediante el derecho de <em>presura</em> y el régimen de <em>concejo abierto</em> para repoblar la cuenca del Duero.
+          </p>
+
+          <h3>3.6. Decreto 3587/1974 de Incorporación de Cabeza de Framontanos a Villarino (BOE Nº 12, 14/01/1975)</h3>
+          <div class="tib-doc-quote">
+            <p>
+              <strong>«DECRETO 3587/1974, de 20 de diciembre</strong>, por el que se aprueba la incorporación del Municipio de Cabeza de Framontanos al de Villarino, de la provincia de Salamanca.
+            </p>
+            <p>
+              El Ayuntamiento de Cabeza de Framontanos adoptó acuerdo con quórum legal de solicitar la incorporación de su Municipio al limítrofe de Villarino, ambos de la provincia de Salamanca, en base a que carece de medios económicos suficientes para prestar los servicios mínimos obligatorios exigidos por la Ley...
+            </p>
+            <p style="margin-bottom: 0;">
+              <strong>Artículo primero.-</strong> Se aprueba la incorporación voluntaria del municipio de Cabeza de Framontanos al limítrofe de Villarino, de la provincia de Salamanca. Dado en Madrid a veinte de diciembre de mil novecientos setenta y cuatro. El Ministro de la Gobernación, <strong>José García Hernández</strong>.»
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.7. Cuentos de la Gudina -->
+      <div id="his-gudina" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Cuentos de la Gudina (Manuel Moreno Blanco, 1977): «La Rivera Crecida»</h2>
+          <div class="tib-doc-quote">
+            <p>
+              «Venía el caminante de <strong>Cabeza de Framontanos</strong> y se dirigía a Vitigudino. Llovía torrencialmente. Era víspera de los Santos y caía agua como casi siempre en esta tierra por esas fechas: <em>"la llena de los Santos tiene que venir, ocho días antes u ocho días después"</em>.
+            </p>
+            <p>
+              Pasó por la Zarzita, la Zarza de D. Beltrán, pero allí no había posada. Paisaje de robles y robles. No paró debajo de un roble. Recordó un refrán que venía al caso, como anillo al dedo: <em>"el que se mete debajo de hoja, dos veces se moja"</em>. La cabalgadura era buena para aquellos caminos: una mula fuerte, bien alimentada, noble y andariega...»
+            </p>
+          </div>
+          <p>
+            El relato narra la travesía del comerciante de lanas que parte de Cabeza de Framontanos en plena tormenta de Todos los Santos y, al encontrar desbordada la rivera pasado Robledo, debe refugiarse en una posada donde las conversaciones giran en torno a las antiguas creencias sobre las brujas y los caminos de La Ramajería.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3.8 y 3.9. Lengua Ramajera y El Leonés en Salamanca -->
+      <div id="his-lengua" class="tib-subpanel">
+        <div class="tib-container">
+          <div class="tib-editorial-split">
+            <div class="tib-prose">
+              <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Lengua Ramajera y la Huella del Leonés en Salamanca</h2>
+              <p>
+                Según los estudios de <strong>Argimiro Cuadrado</strong> (<em>El Lenguaje Popular Ramajero</em>, 1995) y del profesor de la Universidad de Salamanca <strong>José Luis Herrero Ingelmo</strong> (<em>El Leonés en Salamanca cien años después, 1906–2006</em>), el habla tradicional de Cabeza de Framontanos, Pereña, Villarino y La Ramajería conserva un valiosísimo sustrato del antiguo <strong>dominio lingüístico astur-leonés</strong> fusionado con el castellano charruno.
+              </p>
+              <p>
+                Rasgos como la conservación de palatalizaciones (<em>llábana, llares</em>), el cierre vocálico final en <em>-u</em> (<em>antrueju, tolleru, zarrapú</em>), sufijos diminutivos y un riquísimo léxico agrario, pastoril y topográfico hacen del habla ramajera un patrimonio inmaterial único.
+              </p>
+            </div>
+            <div style="background: var(--color-warm-white); padding: 1.25rem; border: 1px solid var(--grey-200); text-align: center;">
+              <img src="https://static.wixstatic.com/media/d7d904_3ed20fe6a280e6776c242233878c10b9.jpg/v1/fill/w_400,h_320,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_3ed20fe6a280e6776c242233878c10b9.jpg" alt="Mapa dialectal del leonés en la provincia de Salamanca" style="margin: 0 auto;">
+              <p style="font-size: 0.82rem; color: var(--grey-600); margin-top: 0.65rem;">Distribución de los rasgos dialectales leoneses en las comarcas de Salamanca.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.10. Diccionario Ramajero Interactivo -->
+      <div id="his-diccionario" class="tib-subpanel">
+        <div class="tib-container">
+          <h2 class="tib-section-heading" style="margin-bottom: 0.65rem;">Diccionario Ramajero Interactivo (A–Z)</h2>
+          <p class="tib-prose" style="margin-bottom: 1.25rem;">
+            Vocabulario tradicional de Cabeza de Framontanos, Trabanca y La Ramajería (incluyendo los puntos cardinales propios: <strong>Abajo</strong> = Oeste, <strong>Arriba</strong> = Este, <strong>Gallego</strong> = Norte, <strong>Serrano</strong> = Sur, y las medidas del proindiviso: <strong>Yugada, Sesmo y Céntimo</strong>).
+          </p>
+
+          <div class="tib-search-bar">
+            <input id="dictSearchInput" type="search" placeholder="Buscar palabra ramajera o significado (ej. cortina, caozo, yugada, llábana, recencio)...">
+            <i class="ph ph-magnifying-glass"></i>
+          </div>
+
+          <div id="dictAlphaBar" class="tib-alpha-bar"></div>
+          <div id="dictGrid" class="tib-dict-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 4: CANCIONERO POPULAR SALMANTINO
+         ====================================================================== -->
+    <section id="tab-cancionero" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Pestaña 04 · Folklore Charro, Gaita y Tamboril</div>
+          <h1 class="tib-page-banner__title">CANCIONERO SALMANTINO</h1>
+          <p class="tib-page-banner__subtitle">
+            El legado musical recopilado por Dámaso Ledesma en 1907, los toques de alborada y pasacalle, la gaita salamanquina de tres agujeros y el repertorio tradicional.
+          </p>
+        </div>
+      </div>
+
+      <div class="tib-subnav">
+        <div class="tib-subnav__inner">
+          <button class="tib-subnav-btn is-active" data-sub="can-intro" onclick="switchSubTab('cancionero', 'can-intro')">Dámaso Ledesma y las 7 Secciones</button>
+          <button class="tib-subnav-btn" data-sub="can-alboradas" onclick="switchSubTab('cancionero', 'can-alboradas')">4.1. Alboradas, Pasacalles y Toques</button>
+          <button class="tib-subnav-btn" data-sub="can-repertorio" onclick="switchSubTab('cancionero', 'can-repertorio')">4.2. Repertorio Cancionero (Letras)</button>
+        </div>
+      </div>
+
+      <!-- 4.0. Introducción Cancionero -->
+      <div id="can-intro" class="tib-subpanel is-active">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Dámaso Blas Ledesma Hernández (1866–1928) y el Folklore Charro</h2>
+          <p>
+            El musicólogo y sacerdote mirobrigense <strong>Dámaso Ledesma</strong> recopiló más de 900 tonadas populares por toda la provincia de Salamanca, obra premiada por la Real Academia de Bellas Artes de San Fernando en 1905 y publicada en 1907 bajo el título <strong><em>Folk-Lore o Cancionero Salmantino</em></strong> (con 404 documentos musicales divididos en 7 secciones).
+          </p>
+          <div class="tib-dict-grid" style="margin: 1.5rem 0;">
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Secciones 1ª a 3ª</div><div class="tib-dict-item__def">Tonadas de 1º, 2º y 3º orden; Charradas, Fandangos, Jotas, Boleras, Rondas, Pasacalles y Cantos de Trabajo Agrícola (Aradas, Muelos, Carro y Siega).</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Secciones 4ª a 6ª</div><div class="tib-dict-item__def">Epitalamios, Cantos de Boda, Ramos y Presentes, Villancicos, Calvarios, Alboradas y grandes Romances charros.</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Sección 7ª: Instrumentos</div><div class="tib-dict-item__def">La <strong>Gaita Salamanquina</strong> (flauta de tres agujeros tocada con una sola mano), el <strong>Tamboril</strong> colgado del brazo izquierdo y la <strong>Dulzaina Peñarandina</strong>.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.1. Alboradas y Pasacalles -->
+      <div id="can-alboradas" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Sones Festivos: Alboradas, Pasacalles y Toques Eclesiásticos</h2>
+          <div class="tib-dict-grid">
+            <div class="tib-dict-item" style="border-left-color: var(--brand-yellow);">
+              <div class="tib-dict-item__term">Las Alboradas</div>
+              <div class="tib-dict-item__def">Pieza solemne y de inusitada belleza del repertorio tamborilero que suena al romper el alba en los días de fiesta patronal, cuando el amanecer no es sinónimo de trabajo y el tamborilero recorre las calles despertando al vecindario.</div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-red);">
+              <div class="tib-dict-item__term">Los Pasacalles</div>
+              <div class="tib-dict-item__def">Ritmo vivo de marcha que acompaña a los Mayordomos, a las comitivas de boda (como el célebre <em>Pasacalle de bodas de Almendra</em>) y a los festejos taurinos hacia la plaza.</div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-purple);">
+              <div class="tib-dict-item__term">Procesiones y Ofertorios</div>
+              <div class="tib-dict-item__def">Toques ceremoniales dentro y fuera del templo durante la misa mayor, la consagración, la procesión del Santo Patrón San Juan Bautista y los bailes de ofertorio y paleos.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.2. Repertorio Cancionero -->
+      <div id="can-repertorio" class="tib-subpanel">
+        <div class="tib-container">
+          <h2 class="tib-section-heading" style="margin-bottom: 0.75rem;">Repertorio del Cancionero Tradicional (19 Canciones)</h2>
+          <p class="tib-prose" style="margin-bottom: 1.75rem;">Haz clic en cualquiera de las 19 tonadas tradicionales para abrir su ficha y leer la letra íntegra:</p>
+          <div id="songsGrid" class="tib-cards-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 5: GASTRONOMÍA, RECETAS, HIERBAS Y VINOS D.O. ARRIBES
+         ====================================================================== -->
+    <section id="tab-gastronomia" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Pestaña 05 · Cocina Tradicional y Enología</div>
+          <h1 class="tib-page-banner__title">GASTRONOMÍA Y D.O. ARRIBES</h1>
+          <p class="tib-page-banner__subtitle">
+            Lo tradicional, de toda la vida: 19 recetas charras paso a paso, guía de 14 hierbas medicinales y aromáticas del campo y los vinos heroicos de la D.O. Arribes.
+          </p>
+        </div>
+      </div>
+
+      <div class="tib-subnav">
+        <div class="tib-subnav__inner">
+          <button class="tib-subnav-btn is-active" data-sub="gas-recetas" onclick="switchSubTab('gastronomia', 'gas-recetas')">5.1. Recetario Charro (19 Recetas)</button>
+          <button class="tib-subnav-btn" data-sub="gas-despensa" onclick="switchSubTab('gastronomia', 'gas-despensa')">Despensa y Productos D.O.</button>
+          <button class="tib-subnav-btn" data-sub="gas-hierbas" onclick="switchSubTab('gastronomia', 'gas-hierbas')">5.2. Hierbas y Especias (14)</button>
+          <button class="tib-subnav-btn" data-sub="gas-vinos" onclick="switchSubTab('gastronomia', 'gas-vinos')">5.3. Vinos D.O. Arribes (14 Bodegas)</button>
+        </div>
+      </div>
+
+      <!-- 5.1. Recetas Charras -->
+      <div id="gas-recetas" class="tib-subpanel is-active">
+        <div class="tib-container">
+          <h2 class="tib-section-heading" style="margin-bottom: 0.65rem;">Recetario Charro: Las 19 Recetas Tradicionales</h2>
+          <p class="tib-prose" style="margin-bottom: 1.5rem;">
+            Filtra por tipo de plato o haz clic en cualquiera de las 19 recetas para ver los ingredientes completos y la elaboración paso a paso:
+          </p>
+          <div id="recipePills" class="tib-filter-pills"></div>
+          <div id="recipesGrid" class="tib-cards-grid"></div>
+        </div>
+      </div>
+
+      <!-- 5.0. Despensa Salmantina -->
+      <div id="gas-despensa" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <h2 class="tib-section-heading" style="margin-bottom: 1.25rem;">Gastronomía Salmantina — «Lo tradicional, de toda la vida»</h2>
+          <p>
+            La despensa de Cabeza de Framontanos y de la provincia de Salamanca se apoya en tres Denominaciones de Origen e I.G.P. emblemáticas (<strong>Jamón de Guijuelo, Lenteja de La Armuña y Carne de Morucha</strong>) y dos Marcas de Garantía de primer nivel (<strong>Ternera Charra y Quesos de Arribes</strong>).
+          </p>
+          <div class="tib-cards-grid" style="margin-top: 1.75rem;">
+            <div class="tib-card">
+              <div class="tib-card__media"><img src="https://static.wixstatic.com/media/d7d904_c935207e09fb184659aa8327ec50327c.jpg/v1/fill/w_600,h_380,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_c935207e09fb184659aa8327ec50327c.jpg" alt="Jamón Ibérico y Embutidos"></div>
+              <h3 class="tib-card__title">Ibéricos, Farinato y Matanza</h3>
+              <p class="tib-card__desc">Jamón ibérico de bellota, lomo embuchado, chorizo cular, chichas de matanza (probadura) y el inconfundible farinato con huevos fritos.</p>
+            </div>
+            <div class="tib-card">
+              <div class="tib-card__media"><img src="https://static.wixstatic.com/media/d7d904_c43fca4f86da82f880372f384923aa2c.jpg/v1/fill/w_600,h_380,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_c43fca4f86da82f880372f384923aa2c.jpg" alt="Queso de Arribes"></div>
+              <h3 class="tib-card__title">Quesos de Oveja de Las Arribes</h3>
+              <p class="tib-card__desc">Quesos curados y añejos de leche cruda de oveja elaborados en la comarca, de pasta firme y sabor intenso, junto al tradicional queso de almendra.</p>
+            </div>
+            <div class="tib-card">
+              <div class="tib-card__media"><img src="https://static.wixstatic.com/media/d7d904_00f8ae51c2e95d44c2d5501458f70b4c.jpg/v1/fill/w_600,h_380,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_00f8ae51c2e95d44c2d5501458f70b4c.jpg" alt="Hornazo Charro"></div>
+              <h3 class="tib-card__title">Hornazo, Perronillas y Bollo Maimón</h3>
+              <p class="tib-card__desc">Repostería y panadería de horno de leña presente en todas las romerías, bodas y convites patronales de San Juan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5.2. Hierbas y Especias -->
+      <div id="gas-hierbas" class="tib-subpanel">
+        <div class="tib-container">
+          <h2 class="tib-section-heading" style="margin-bottom: 0.75rem;">Guía Botánica: 14 Hierbas Medicinales y Especias</h2>
+          <p class="tib-prose" style="margin-bottom: 1.75rem;">
+            Plantas silvestres y aromáticas de los valles, cortinas y riberas de Cabeza de Framontanos clasificadas por sus propiedades (Digestivas, Diuréticas, Relajantes, Antiinflamatorias, Expectorantes y Carminativas):
+          </p>
+          <div id="herbsGrid" class="tib-dict-grid"></div>
+        </div>
+      </div>
+
+      <!-- 5.3. Vinos D.O. Arribes -->
+      <div id="gas-vinos" class="tib-subpanel">
+        <div class="tib-container tib-prose">
+          <div class="tib-editorial-split">
+            <div>
+              <span class="tib-hero__kicker" style="background: var(--brand-purple);">Orden AYG/1264/2007</span>
+              <h2 class="tib-section-heading" style="margin-bottom: 1rem;">Vinos Denominación de Origen Arribes</h2>
+              <p>
+                Nacida oficialmente en 2007, la <strong>D.O. Arribes</strong> abarca 45 localidades entre el noroeste de Salamanca (20 municipios, incluyendo Villarino de los Aires, Pereña de la Ribera, Aldeadávila, Masueco y su entorno) y el suroeste de Zamora, con viñedos plantados en bancales sobre el batolito granítico y suelos de pizarra entre los 120 y los 810 metros de altitud.
+              </p>
+              <h3>Variedades de Uva Autóctonas</h3>
+              <ul>
+                <li><strong>Tintas principales:</strong> <em>Juan García</em> (emblema de Las Arribes), <em>Rufete</em> y <em>Tempranillo</em> (autorizadas: Mencía y Garnacha).</li>
+                <li><strong>Variedades tintas autóctonas recuperadas:</strong> <em>Bruñal</em> y <em>Bastardillo Chico</em>.</li>
+                <li><strong>Blancas:</strong> <em>Malvasía</em> (principal), <em>Verdejo</em>, <em>Albillo</em> y la variedad autóctona recuperada <em>Puesta en Cruz</em>.</li>
+              </ul>
+            </div>
+            <div>
+              <img src="https://static.wixstatic.com/media/d7d904_b926b72a4da653b5665acf57d5ef6185.jpg/v1/fill/w_600,h_540,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_b926b72a4da653b5665acf57d5ef6185.jpg" alt="Uva variedad Juan García D.O. Arribes" style="width: 100%; max-height: 360px; object-fit: cover; border: 1px solid var(--grey-200);">
+            </div>
+          </div>
+
+          <h3 style="margin-top: 2.5rem;">Las 14 Bodegas Inscritas en la D.O. Arribes</h3>
+          <div class="tib-dict-grid">
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Bodega Viña Romana</div><div class="tib-dict-item__def">Villarino de los Aires (Salamanca)</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Bodega Las Gavias / Ribera de Pelazas</div><div class="tib-dict-item__def">Pereña de la Ribera (Salamanca)</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Coop. San Bartolomé / Arribes del Duero / F. Torollo</div><div class="tib-dict-item__def">Aldeadávila de la Ribera y Corporario (Salamanca)</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Quinta Las Velas / Dos Ingleses (Little House)</div><div class="tib-dict-item__def">Ahigal de los Aceiteros y La Fregeneda (Salamanca)</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Virgen de la Bandera / Haciendas de España / Ocellvm Dvrii / AlmaRoja</div><div class="tib-dict-item__def">Fermoselle (Zamora)</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Bodega La Setera / Bodegas de Crianza (Terrazgo)</div><div class="tib-dict-item__def">Fornillos de Fermoselle (Zamora)</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 6: FIESTAS Y EVENTOS
+         ====================================================================== -->
+    <section id="tab-fiestas" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Pestaña 06 · Calendario Festivo Anual</div>
+          <h1 class="tib-page-banner__title">FIESTAS Y TRADICIONES</h1>
+          <p class="tib-page-banner__subtitle">
+            Las tres grandes citas que reúnen a todos los hijos y amigos de Cabeza de Framontanos: San Juan Bautista (24 de junio), las Fiestas de Verano y Ntra. Sra. del Rosario (agosto) y la Fiesta Grande de la Inmaculada (6 de diciembre).
+          </p>
+        </div>
+      </div>
+
+      <div class="tib-section">
+        <div class="tib-container">
+          <div class="tib-cards-grid">
+            <!-- San Juan -->
+            <article class="tib-card" style="cursor: default;">
+              <div class="tib-card__media" style="aspect-ratio: 4/5;">
+                <span class="tib-card__badge" style="background: var(--brand-red);">24 de Junio · Fiestas Patronales</span>
+                <img src="https://static.wixstatic.com/media/d7d904_a0dcaa547cd74d22b74e3b6f3dd97f87~mv2.jpg/v1/fill/w_550,h_760,al_c,q_80,enc_avif,quality_auto/d7d904_a0dcaa547cd74d22b74e3b6f3dd97f87~mv2.jpg" alt="Cartel Fiestas de San Juan en Cabeza de Framontanos">
+              </div>
+              <div class="tib-card__breadcrumb">Solsticio de Verano · Patrón del Pueblo</div>
+              <h3 class="tib-card__title">Fiestas Patronales de San Juan Bautista</h3>
+              <p class="tib-card__desc">
+                Arrancan en la víspera con el <strong>Vino Español</strong> (degustación de chorizo, jamón, hornazo, perronillas, vino y aguardiente) y la <strong>Tradicional Hoguera de San Juan</strong>. El día 24 se celebra la Misa y Procesión acompañada por los <strong>Mayordomos</strong> hasta la plaza, el tradicional <strong>Convite</strong> (chochos y aceitunas), la <strong>Paella Popular</strong>, encierros infantiles y bailes.
+              </p>
+            </article>
+
+            <!-- Agosto -->
+            <article class="tib-card" style="cursor: default;">
+              <div class="tib-card__media" style="aspect-ratio: 4/5;">
+                <span class="tib-card__badge" style="background: var(--brand-orange);">Mes de Agosto · 15 de Agosto</span>
+                <img src="https://static.wixstatic.com/media/d7d904_b093f3da7bc542bfb988c98530a6a33c~mv2.jpg/v1/fill/w_550,h_760,al_c,q_80,enc_avif,quality_auto/d7d904_b093f3da7bc542bfb988c98530a6a33c~mv2.jpg" alt="Cartel Fiestas de Verano Cabeza de Framontanos">
+              </div>
+              <div class="tib-card__breadcrumb">Ntra. Sra. del Rosario y Semana Cultural</div>
+              <h3 class="tib-card__title">Fiestas de Verano en La Cabeza</h3>
+              <p class="tib-card__desc">
+                Impulsadas por las asociaciones <strong>«Framontanos en Marcha»</strong> y <strong>«San Juan Bautista / 3ª Edad»</strong> junto a la fiesta del 15 de agosto (Ntra. Sra. del Rosario): campeonatos de Frontón, Pádel, Baloncesto y Fútbol, el esperado <strong>Trivial Framontano</strong>, torneos de Mus, Tute y Cinquillo, concurso de Tortilla de Patatas, teatro, yincanas, hinchables, comidas populares y verbenas nocturnas.
+              </p>
+            </article>
+
+            <!-- Inmaculada -->
+            <article class="tib-card" style="cursor: default;">
+              <div class="tib-card__media" style="aspect-ratio: 4/5;">
+                <span class="tib-card__badge" style="background: var(--brand-blue);">6 de Diciembre · Puente de la Constitución</span>
+                <img src="https://static.wixstatic.com/media/d7d904_6369623541944c96b5510c40550843e1~mv2.jpg/v1/fill/w_550,h_760,al_c,q_80,enc_avif,quality_auto/d7d904_6369623541944c96b5510c40550843e1~mv2.jpg" alt="Cartel Fiesta Grande de la Inmaculada">
+              </div>
+              <div class="tib-card__breadcrumb">Juventud y Hermandad en Invierno</div>
+              <h3 class="tib-card__title">Fiesta Grande de la Inmaculada</h3>
+              <p class="tib-card__desc">
+                Organizada de forma voluntaria por los jóvenes del pueblo durante el puente del 6 de diciembre: gran comida popular de hermandad, corte y degustación de jamón, romería amenizada por el tradicional <em>«Lebrel»</em> y actuaciones musicales por la noche. <strong>¡¡Viva Cabeza de Framontanos!!</strong>
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 7: GALERÍA FOTOGRÁFICA Y AUDIOVISUAL
+         ====================================================================== -->
+    <section id="tab-galeria" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Archivo Visual y Audiovisual</div>
+          <h1 class="tib-page-banner__title">GALERÍA DE VÍDEOS Y FOTOS</h1>
+          <p class="tib-page-banner__subtitle">
+            Vídeos en alta calidad y estampas de Cabeza de Framontanos, sus parajes naturales, rincones emblemáticos y cartografía histórica.
+          </p>
+        </div>
+      </div>
+
+      <div class="tib-section">
+        <div class="tib-container">
+
+          <!-- Vídeos reproducibles de la carpeta vid/ -->
+          <h2 class="tib-section-heading" style="margin-bottom: 1.5rem;">Vídeos de Cabeza de Framontanos</h2>
+          <div class="tib-video-grid">
+            <article class="tib-video-card">
+              <video class="tib-video-card__player" controls preload="metadata" poster="img/main.jpg">
+                <source src="vid/vid1.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de vídeo HTML5.
+              </video>
+              <div class="tib-video-card__body">
+                <div class="tib-video-card__kicker">Vídeo 01 · Vista Aérea y Casco Urbano</div>
+                <h3 class="tib-video-card__title">Panorámica del pueblo</h3>
+                <p class="tib-video-card__desc">Recorrido visual panorámico por Cabeza de Framontanos, sus tejados, calles y el paisaje granítico de La Ramajería.</p>
+              </div>
+            </article>
+
+            <article class="tib-video-card">
+              <video class="tib-video-card__player" controls preload="metadata">
+                <source src="vid/vid2.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de vídeo HTML5.
+              </video>
+              <div class="tib-video-card__body">
+                <div class="tib-video-card__kicker">Vídeo 02 · Naturaleza y Agua</div>
+                <h3 class="tib-video-card__title">La Rivera de la Cabeza de Ciruelos</h3>
+                <p class="tib-video-card__desc">Imágenes de la rivera y el agua corriendo entre los berrocales y parajes naturales de La Cabeza de Ciruelos.</p>
+              </div>
+            </article>
+          </div>
+
+          <!-- Galería Fotográfica -->
+          <h2 class="tib-section-heading" style="margin-bottom: 1.5rem;">Archivo Fotográfico</h2>
+          <div class="tib-cards-grid">
+            <div class="tib-card" onclick="openModal('<img src=\'img/main.jpg\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>Panorámica de Cabeza de Framontanos</h3>')">
+              <div class="tib-card__media"><img src="img/main.jpg" alt="Panorámica de Cabeza de Framontanos"></div>
+              <div class="tib-card__breadcrumb">Casco Urbano | Vista Principal</div>
+              <h3 class="tib-card__title">Panorámica de Cabeza de Framontanos</h3>
+            </div>
+
+            <div class="tib-card" onclick="openModal('<img src=\'img/Fronton.jpg\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>Frontón del pueblo</h3>')">
+              <div class="tib-card__media"><img src="img/Fronton.jpg" alt="Frontón del pueblo"></div>
+              <div class="tib-card__breadcrumb">Barrio de El Egido | Deporte y Tradición</div>
+              <h3 class="tib-card__title">Frontón del pueblo</h3>
+            </div>
+
+            <div class="tib-card" onclick="openModal('<img src=\'img/Toñibar.jpg\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>Bar Toñi</h3>')">
+              <div class="tib-card__media"><img src="img/Toñibar.jpg" alt="Bar Toñi"></div>
+              <div class="tib-card__breadcrumb">Centro del Pueblo | Vida Social</div>
+              <h3 class="tib-card__title">Bar Toñi</h3>
+            </div>
+
+            <div class="tib-card" onclick="openModal('<img src=\'img/Resbalina.jpg\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>La Resbalina</h3>')">
+              <div class="tib-card__media"><img src="img/Resbalina.jpg" alt="La Resbalina"></div>
+              <div class="tib-card__breadcrumb">Rincones del Pueblo | Peña Granítica</div>
+              <h3 class="tib-card__title">La Resbalina</h3>
+            </div>
+
+            <div class="tib-card" onclick="openModal('<img src=\'img/pistapadel.jpg\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>Pista de Pádel</h3>')">
+              <div class="tib-card__media"><img src="img/pistapadel.jpg" alt="Pista de Pádel"></div>
+              <div class="tib-card__breadcrumb">Zona Deportiva | Cabeza de Framontanos</div>
+              <h3 class="tib-card__title">Pista de Pádel</h3>
+            </div>
+
+            <div class="tib-card" onclick="openModal('<img src=\'' + IMAGES.canonArribes + '\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>Cañón granítico de los Arribes del Duero</h3>')">
+              <div class="tib-card__media"><img src="https://static.wixstatic.com/media/d7d904_7d0e5b8ab973bbd282c9ac0459cf9468.jpg/v1/fill/w_600,h_540,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_7d0e5b8ab973bbd282c9ac0459cf9468.jpg" alt="Arribes del Duero"></div>
+              <div class="tib-card__breadcrumb">Entorno Natural | Parque Natural</div>
+              <h3 class="tib-card__title">Meandros y Cañones de Arribes del Duero</h3>
+            </div>
+
+            <div class="tib-card" onclick="openModal('<img src=\'' + IMAGES.videsPerena + '\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>Viñedos y sendero GR-14 en la comarca</h3>')">
+              <div class="tib-card__media"><img src="https://static.wixstatic.com/media/d7d904_a9adcef2a5a2bb5b7711d9942ee39802.jpg/v1/fill/w_600,h_540,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_a9adcef2a5a2bb5b7711d9942ee39802.jpg" alt="Viñedos y sendero GR-14"></div>
+              <div class="tib-card__breadcrumb">Paisaje Cultural | Senda del Duero</div>
+              <h3 class="tib-card__title">Bancales, Cortinas y Viñedos</h3>
+            </div>
+
+            <div class="tib-card" onclick="openModal('<img src=\'' + IMAGES.mapaTerminos + '\' style=\'width:100%\'><h3 style=\'margin-top:1rem\'>Mapa de Topónimos y Términos de La Cabeza</h3>')">
+              <div class="tib-card__media"><img src="https://static.wixstatic.com/media/d7d904_81f4b34372c14ab995c839dffa814655.jpg/v1/fill/w_941,h_896,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d7d904_81f4b34372c14ab995c839dffa814655.jpg" alt="Mapa de Términos"></div>
+              <div class="tib-card__breadcrumb">Cartografía Local | Toponimia</div>
+              <h3 class="tib-card__title">Plano de Términos de «La Cabeza»</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 8: ENLACES DE INTERÉS, AYUNTAMIENTO Y CONSULTORIO MÉDICO
+         ====================================================================== -->
+    <section id="tab-enlaces" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Pestaña 08 · Información Práctica y Directorio</div>
+          <h1 class="tib-page-banner__title">ENLACES Y SERVICIOS</h1>
+          <p class="tib-page-banner__subtitle">
+            Teléfonos y horarios del Consultorio Médico, contactos del Ayuntamiento de Cabeza de Framontanos y de Villarino de los Aires, instituciones y enlaces de toda la comarca.
+          </p>
+        </div>
+      </div>
+
+      <div class="tib-section">
+        <div class="tib-container">
+
+          <!-- 8.1. Ayuntamiento y Administración Local -->
+          <h2 class="tib-section-heading" style="margin-bottom: 1.5rem;">Administración Local y Contacto Municipal</h2>
+          <div class="tib-editorial-split" style="margin-bottom: 3.5rem;">
+            <div style="background: var(--color-warm-white); padding: 2rem; border-top: 4px solid var(--color-black);">
+              <div class="tib-card__breadcrumb">Pedanía · C.P. 37174</div>
+              <h3 style="font-size: 1.6rem; margin: 0.35rem 0 1rem;">Ayuntamiento de Cabeza de Framontanos</h3>
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 1rem;">
+                <li><i class="ph-bold ph-map-pin"></i> <strong>Dirección:</strong> C/ Plaza, nº 0 · 37174 Cabeza de Framontanos (Salamanca)</li>
+                <li><i class="ph-bold ph-phone"></i> <strong>Teléfono Ayuntamiento:</strong> <a href="tel:923577006" style="text-decoration: underline;">923 57 70 06</a></li>
+                <li><i class="ph-bold ph-user"></i> <strong>Concejal (Juan Miguel):</strong> <a href="tel:620844177" style="text-decoration: underline;">620 844 177</a></li>
+                <li><i class="ph-bold ph-envelope"></i> <strong>Correo electrónico:</strong> <a href="mailto:alguacilcabeza@hotmail.com" style="text-decoration: underline;">alguacilcabeza@hotmail.com</a></li>
+              </ul>
+            </div>
+
+            <div style="background: var(--color-warm-white); padding: 2rem; border-top: 4px solid var(--brand-red);">
+              <div class="tib-card__breadcrumb">Municipio Matriz · C.P. 37160</div>
+              <h3 style="font-size: 1.6rem; margin: 0.35rem 0 1rem;">Ayuntamiento de Villarino de los Aires</h3>
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 1rem;">
+                <li><i class="ph-bold ph-map-pin"></i> <strong>Dirección:</strong> C/ Plaza Mayor, nº 1 · 37160 Villarino de los Aires</li>
+                <li><i class="ph-bold ph-phone"></i> <strong>Teléfono Centralita:</strong> <a href="tel:923573001">923 573 001</a> · <strong>Fax:</strong> 923 573 094</li>
+                <li><i class="ph-bold ph-users"></i> <strong>Servicios Sociales:</strong> 923 570 881 · <strong>Residencia Mayores:</strong> 923 142 033</li>
+                <li><i class="ph-bold ph-scales"></i> <strong>Juez de Paz:</strong> 923 573 126 · <strong>Email:</strong> <a href="mailto:ayuntamiento@villarinodelosaires.es" style="text-decoration: underline;">ayuntamiento@villarinodelosaires.es</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 8.2. Consultorio Médico y Urgencias -->
+          <h2 class="tib-section-heading" style="margin-bottom: 1.5rem;">Consulta Médica, Horarios y Urgencias</h2>
+          <div class="tib-dict-grid" style="margin-bottom: 3.5rem;">
+            <div class="tib-dict-item" style="border-left-color: var(--brand-green);">
+              <div class="tib-dict-item__term">C.S. Cabeza de Framontanos</div>
+              <div class="tib-dict-item__def">
+                <strong>Dirección:</strong> C/ Pereña, nº 10<br>
+                <strong>Teléfono:</strong> 923 57 70 90<br>
+                <strong>Horario de Consulta:</strong> Miércoles desde las 11:00 h.
+              </div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-teal);">
+              <div class="tib-dict-item__term">C.S. Trabanca y C.S. Almendra</div>
+              <div class="tib-dict-item__def">
+                <strong>Trabanca:</strong> C/ Ronda del Mercado, 22 (Tel. 923 08 99 16) · Lunes y Martes 10:00–11:30 h; Jueves consulta programada.<br>
+                <strong>Almendra:</strong> C/ Egido, 20 (Tel. 923 14 14 14) · Martes 12:15–13:30 h; Viernes 10:30 h.
+              </div>
+            </div>
+            <div class="tib-dict-item" style="border-left-color: var(--brand-red);">
+              <div class="tib-dict-item__term">Urgencias y Hospital</div>
+              <div class="tib-dict-item__def">
+                <strong>Urgencias Villarino:</strong> C/ España, 6 · Tel. <strong>923 57 32 47</strong> / 636 726 418<br>
+                <strong>Urgencias Vitigudino:</strong> Tel. <strong>923 50 11 51</strong><br>
+                <strong>Hospital Univ. de Salamanca:</strong> Paseo de la Transición Española, 6 · Centralita 923 29 11 00 / Citaciones 923 29 12 01.
+              </div>
+            </div>
+          </div>
+
+          <!-- 8.3. Directorio de Enlaces -->
+          <h2 class="tib-section-heading" style="margin-bottom: 1.5rem;">Directorio de Instituciones, Turismo y Comarca</h2>
+          <div class="tib-dict-grid">
+            <div class="tib-dict-item">
+              <div class="tib-dict-item__term">Instituciones y Cartografía</div>
+              <div class="tib-dict-item__def">
+                <ul style="padding-left: 1rem; margin-top: 0.4rem;">
+                  <li><a href="https://www.villarinodelosaires.org" target="_blank" rel="noopener" style="text-decoration: underline;">Ayuntamiento de Villarino de los Aires</a></li>
+                  <li><a href="https://www.lasalina.es" target="_blank" rel="noopener" style="text-decoration: underline;">Diputación de Salamanca</a></li>
+                  <li><a href="https://www.jcyl.es" target="_blank" rel="noopener" style="text-decoration: underline;">Junta de Castilla y León</a></li>
+                  <li><a href="https://www.sedecatastro.gob.es" target="_blank" rel="noopener" style="text-decoration: underline;">Sede Electrónica del Catastro</a> y <a href="https://sigpac.mapama.gob.es/fega/visor/" target="_blank" rel="noopener" style="text-decoration: underline;">Visor SIGPAC</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tib-dict-item">
+              <div class="tib-dict-item__term">Cultura, Prensa y Turismo en Arribes</div>
+              <div class="tib-dict-item__def">
+                <ul style="padding-left: 1rem; margin-top: 0.4rem;">
+                  <li><a href="https://salamancartvaldia.es/comarcas/las-arribes" target="_blank" rel="noopener" style="text-decoration: underline;">Las Arribes al Día (Noticias de la Comarca)</a></li>
+                  <li><a href="http://laramajeria.blogspot.com" target="_blank" rel="noopener" style="text-decoration: underline;">Asociación Cultural de La Ramajería</a></li>
+                  <li><a href="https://www.institutodelasidentidades.es" target="_blank" rel="noopener" style="text-decoration: underline;">IDES · Instituto de las Identidades de Salamanca</a></li>
+                  <li>ADEZOS (Asociación para el Desarrollo de la Zona Oeste de Salamanca)</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tib-dict-item">
+              <div class="tib-dict-item__term">Municipios Vecinos de Arribes y Ramajería</div>
+              <div class="tib-dict-item__def">
+                Trabanca · Pereña de la Ribera · Villarino de los Aires · Almendra · La Vídola · La Peña · Cabeza del Caballo · Barruecopardo · Aldeadávila de la Ribera · Masueco · Fermoselle · Monleras · Vitigudino · Ledesma.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         PESTAÑA 9: ASOCIACIÓN CULTURAL FRAMONTANOS EN MARCHA (ASOC. F.E.M.)
+         ====================================================================== -->
+    <section id="tab-asociacion" class="tib-tab-panel">
+      <div class="tib-page-banner">
+        <div class="tib-container">
+          <div class="tib-page-banner__kicker">Pestaña 09 · Participación Ciudadana y Cultura</div>
+          <h1 class="tib-page-banner__title">ASOC. FRAMONTANOS EN MARCHA</h1>
+          <p class="tib-page-banner__subtitle">
+            La Asociación Cultural «Framontanos en Marcha» (F.E.M.) dinamiza la vida social, cultural, deportiva y festiva de Cabeza de Framontanos durante todo el año.
+          </p>
+        </div>
+      </div>
+
+      <div class="tib-section">
+        <div class="tib-container">
+          <div class="tib-editorial-split" style="margin-bottom: 3.5rem;">
+            <div class="tib-prose">
+              <span class="tib-hero__kicker" style="background: var(--brand-green);">¡Hola! Somos Framontanos en Marcha</span>
+              <h2 class="tib-section-heading" style="margin: 0.5rem 0 1.25rem;">Únete a la Asociación y participa en la vida de La Cabeza</h2>
+              <p>
+                Desde las fiestas de Semana Santa y las semanas culturales de agosto hasta obras de teatro en la iglesia (como <em>«Buscando a Nebrija»</em> por el grupo Lazarillo de Tormes), talleres de primeros auxilios con Cruz Roja, conciertos en directo, concursos de diseño y escape-rooms por el pueblo.
+              </p>
+
+              <div class="tib-doc-quote" style="border-left-color: var(--brand-green);">
+                <h4 style="margin-top: 0;">¿Quieres unirte a la asociación?</h4>
+                <p>
+                  Envía un correo electrónico a <a href="mailto:framontanosenmarcha@gmail.com?subject=Inscripci%C3%B3n%20asociaci%C3%B3n" style="font-weight: 700; text-decoration: underline;">framontanosenmarcha@gmail.com</a> con el asunto <strong>«Inscripción asociación»</strong> indicando tu nombre y apellidos, teléfono de contacto y DNI.
+                </p>
+              </div>
+
+              <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem;">
+                <a class="tib-btn tib-btn--dark" href="https://www.instagram.com/framontanosenmarcha/" target="_blank" rel="noopener">
+                  <i class="ph ph-instagram-logo"></i> Instagram @framontanosenmarcha
+                </a>
+                <a class="tib-btn" href="https://www.facebook.com/asociacionframontanosenmarcha/" target="_blank" rel="noopener">
+                  <i class="ph ph-facebook-logo"></i> Facebook Framontanos en Marcha
+                </a>
+                <a class="tib-btn" href="mailto:framontanosenmarcha@gmail.com">
+                  <i class="ph ph-envelope"></i> framontanosenmarcha@gmail.com
+                </a>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <img src="https://static.wixstatic.com/media/d7d904_64b9fdbae7104038829c90d3f03796cf~mv2.jpg/v1/fill/w_600,h_600,al_c,q_80,enc_avif,quality_auto/d7d904_64b9fdbae7104038829c90d3f03796cf~mv2.jpg" alt="Presentación Framontanos en Marcha" style="width: 100%; border: 1px solid var(--grey-200);">
+              <img src="https://static.wixstatic.com/media/d7d904_7bfb8404a8b5478fb975b44c0b2a79b6~mv2.jpg/v1/fill/w_600,h_600,al_c,q_80,enc_avif,quality_auto/d7d904_7bfb8404a8b5478fb975b44c0b2a79b6~mv2.jpg" alt="Cómo unirse a Framontanos en Marcha" style="width: 100%; border: 1px solid var(--grey-200);">
+            </div>
+          </div>
+
+          <h3 style="font-size: 1.75rem; margin-bottom: 1.25rem;">Actividades y Eventos Organizados por F.E.M.</h3>
+          <div class="tib-dict-grid">
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Fiestas y Actividades de Verano</div><div class="tib-dict-item__def">Semanas culturales de agosto con torneos deportivos, Trivial Framontano, concursos gastronómicos, juegos infantiles y verbenas.</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Teatro en la Iglesia y Conciertos</div><div class="tib-dict-item__def">Representaciones teatrales como <em>«Buscando a Nebrija»</em> (Grupo Lazarillo de Tormes) en la Iglesia de Cabeza de Framontanos y conciertos de rock en directo.</div></div>
+            <div class="tib-dict-item"><div class="tib-dict-item__term">Semana Santa, Talleres y Escape-Room</div><div class="tib-dict-item__def">Encuentros de Semana Santa, Escape-Room familiar <em>«¡Recupera la Receta Robada!»</em>, concurso de diseño y cursos de Primeros Auxilios con Cruz Roja.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL INTERACTIVO (PARA RECETAS, CANCIONES Y FOTOS)
+       ======================================================================== -->
+  <div id="tibModal" class="tib-modal" onclick="if(event.target === this) closeModal()">
+    <div class="tib-modal__dialog">
+      <button class="tib-modal__close" onclick="closeModal()" title="Cerrar">
+        <i class="ph ph-x"></i>
+      </button>
+      <div id="tibModalBody"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       FOOTER NEGRO + MARQUEE CINÉTICO (ESTILO THIS IS BARCELONA)
+       ======================================================================== -->
+  <footer class="tib-footer">
+    <div class="tib-footer__grid">
+      <div>
+        <div class="tib-footer__title">Redes y Contacto</div>
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+          <a class="tib-circle-btn" href="https://www.facebook.com/groups/94136215607" target="_blank" rel="noopener" title="Grupo Facebook Cabeza de Framontanos"><i class="ph ph-facebook-logo"></i></a>
+          <a class="tib-circle-btn" href="https://www.instagram.com/framontanosenmarcha/" target="_blank" rel="noopener" title="Instagram Framontanos en Marcha"><i class="ph ph-instagram-logo"></i></a>
+          <a class="tib-circle-btn" href="mailto:alguacilcabeza@hotmail.com" title="Correo de Cabeza de Framontanos"><i class="ph ph-envelope"></i></a>
+        </div>
+        <a href="mailto:alguacilcabeza@hotmail.com" style="font-size: 0.9rem; color: var(--grey-300);">alguacilcabeza@hotmail.com</a>
+      </div>
+
+      <div>
+        <div class="tib-footer__title">Sobre La Cabeza</div>
+        <ul class="tib-footer__list">
+          <li><button onclick="switchTab('situacion', 'sit-general')">Cómo llegar (DSA-561)</button></li>
+          <li><button onclick="switchTab('situacion', 'sit-terminos')">Mapa de Topónimos y Términos</button></li>
+          <li><button onclick="switchTab('historia', 'his-intro')">Historia de las Tres Dehesas</button></li>
+          <li><button onclick="switchTab('historia', 'his-madoz')">Diccionario Madoz (1842)</button></li>
+          <li><button onclick="switchTab('historia', 'his-catastro')">Compra de 1919 y El Concejo</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="tib-footer__title">Todo lo que puedes hacer</div>
+        <ul class="tib-footer__list">
+          <li><button onclick="switchTab('lugares')">Lugares de Interés del Pueblo</button></li>
+          <li><button onclick="switchTab('situacion', 'sit-rutas')">Ruta Olla de los Chorros</button></li>
+          <li><button onclick="switchTab('situacion', 'sit-rutas')">Cascada del Pozo Airón</button></li>
+          <li><button onclick="switchTab('situacion', 'sit-rutas')">Mirador del Picón de Felipe</button></li>
+          <li><button onclick="switchTab('gastronomia', 'gas-recetas')">19 Recetas Charras</button></li>
+          <li><button onclick="switchTab('gastronomia', 'gas-vinos')">Ruta del Vino D.O. Arribes</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="tib-footer__title">Ficha Municipal</div>
+        <ul class="tib-footer__list" style="color: var(--grey-300); font-size: 0.85rem;">
+          <li><strong>Coordenadas:</strong> 41°12'54"N, 6°26'17"O</li>
+          <li><strong>Altitud:</strong> 792 msnm · <strong>Sup.:</strong> 102,64 km²</li>
+          <li><strong>C.P.:</strong> 37174 · <strong>Patrón:</strong> San Juan Bautista</li>
+          <li><strong>Ayuntamiento:</strong> Villarino de los Aires</li>
+          <li><strong>Comarca:</strong> La Ramajería · Vitigudino</li>
+          <li><strong>Provincia:</strong> Salamanca · Castilla y León</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tib-marquee" aria-hidden="true">
+      <div class="tib-marquee__track">
+        THIS IS CABEZA DE FRAMONTANOS · ENTRE LA RAMAJERÍA Y LOS ARRIBES DEL DUERO · 792 MSNM · SAN JUAN BAUTISTA · THIS IS CABEZA DE FRAMONTANOS · ENTRE LA RAMAJERÍA Y LOS ARRIBES DEL DUERO · 792 MSNM · SAN JUAN BAUTISTA ·
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
